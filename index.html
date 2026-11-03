@@ -1392,7 +1392,7 @@ function updateMasterUI(){ const c=$('mcount'); if(c)c.textContent=LIVE_MASTER.l
 function dlArrayBuffer(ab,name,mime){ const blob=new Blob([ab],{type:mime||'application/octet-stream'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1500); }
 const XLMIME='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
-$('dlMaster').onclick=()=>{ dlArrayBuffer(masterToArray(),'bank_master.xlsx',XLMIME); $('mmsg').textContent='현재 마스터('+LIVE_MASTER.length+'개)를 내려받았습니다. 신규 기관 행 추가/수정 후 [마스터 파일 업로드]로 반영하세요.'; };
+$('dlMaster').onclick=()=>{ dlArrayBuffer(masterToArray(),'bank_master.xlsx',XLMIME); $('mmsg').textContent='현재 마스터('+LIVE_MASTER.length+'개)를 내려받았습니다. 고친 파일을 위 금융기관 마스터 칸에 끌어다 놓으면 그대로 바뀝니다.'; };
 async function processMasterFile(f){
   if(!f)return; $('mmsg').textContent='마스터 파일 읽는 중…';
   try{
