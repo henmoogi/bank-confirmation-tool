@@ -1,0 +1,25 @@
+<html><head><meta charset="utf-8"></head><body><div class="result_con"><div><table><caption></caption>
+<tr><th>기업명</th><td>샘플상사주식회사</td><th>사업자등록번호</th><td>123-45-67890</td><th>조회 ID / 조회자</th><td><span>sample01</span> / <span>홍길동</span></td></tr>
+<tr><th>여신조회 기준년월</th><td>2025.12</td><th>최종변경일</th><td>2026.01.10</td><th>조회일시</th><td>2026.01.20 / 10:00:00</td></tr></table></div>
+<div><p>- 신용공여 잔액(은행) <span>※ 예시용 가상 월보입니다. 실제 회사·거래와 관계없습니다.</span></p><span>(단위:백만원)</span></div>
+<div><table><caption>신용공여 잔액(은행)</caption><thead><tr><th colspan="2">대출과목명</th><th>신한은행</th><th>시중은행계</th><th>기업은행</th><th>농협은행</th><th>특수은행계</th><th>은행총계</th></tr></thead><tbody>
+<tr><td rowspan="4">대출채권</td><td>원화대출금 일반자금</td><td>350</td><td>350</td><td>-</td><td>80</td><td>80</td><td>430</td></tr>
+<tr><td>원화대출금 시설자금</td><td>-</td><td>-</td><td>200</td><td>-</td><td>200</td><td>200</td></tr>
+<tr><td>원화대출금 소계</td><td>350</td><td>350</td><td>200</td><td>80</td><td>280</td><td>630</td></tr>
+<tr><td>대출채권계</td><td>350</td><td>350</td><td>200</td><td>80</td><td>280</td><td>630</td></tr>
+<tr><td rowspan="2">주석</td><td>확정(외화) 지급보증 수입신용장</td><td>-</td><td>-</td><td>165</td><td>-</td><td>165</td><td>165</td></tr>
+<tr><td>주석계</td><td>-</td><td>-</td><td>165</td><td>-</td><td>165</td><td>165</td></tr>
+<tr><td rowspan="3">신용공여합계</td><td>대출채권계</td><td>350</td><td>350</td><td>200</td><td>80</td><td>280</td><td>630</td></tr>
+<tr><td>주석</td><td>-</td><td>-</td><td>165</td><td>-</td><td>165</td><td>165</td></tr>
+<tr><td>합계</td><td>350</td><td>350</td><td>365</td><td>80</td><td>445</td><td>795</td></tr></tbody></table></div>
+<div><p>- 신용공여 잔액(보험)</p><span>(단위:백만원)</span></div>
+<div><table><caption>신용공여 잔액(보험)</caption><thead><tr><th colspan="2">대출과목명</th><th>서울보증보험</th><th>보증보험계</th><th>보험회사계</th></tr></thead><tbody>
+<tr><td rowspan="1">주석(지급보증 등)</td><td>이행지보</td><td>60</td><td>60</td><td>60</td></tr>
+<tr><td rowspan="1">주석</td><td>주석계</td><td>60</td><td>60</td><td>60</td></tr>
+<tr><td rowspan="2">신용공여합계</td><td>주석</td><td>60</td><td>60</td><td>60</td></tr>
+<tr><td>합계</td><td>60</td><td>60</td><td>60</td></tr></tbody></table></div>
+<div><p>- 한도 잔액(은행)</p><span>(단위:백만원)</span></div>
+<div><table><caption>한도 잔액(은행)</caption><thead><tr><th>대출과목명</th><th>신한은행</th><th>시중은행계</th><th>은행총계</th></tr></thead><tbody>
+<tr><td>일반자금(회전한도액)</td><td>500</td><td>500</td><td>500</td></tr>
+<tr><td>계(회전한도액)</td><td>500</td><td>500</td><td>500</td></tr></tbody></table></div>
+</div></body></html>
