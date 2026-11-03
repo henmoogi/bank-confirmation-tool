@@ -116,7 +116,7 @@
   <header class="top">
     <div class="top-l">
       <h1>금융기관조회서 회신 집계 도구 <span style="font-weight:400;font-size:13px;opacity:.85">· Bank Confirmation Replies</span></h1>
-      <p>회계감사용 금융기관 회신 PDF를 브라우저에서 일괄 처리 - 회사·기관·카테고리 자동 분류, 표준 코드 이름변경 미리보기, BC0 통제표·매트릭스, 본문 데이터 카테고리별 집계까지. 설치 불필요·오프라인 동작·업로드한 PDF는 브라우저 밖으로 전송되지 않습니다.</p>
+      <p>회계감사용 금융기관 회신 PDF를 브라우저에서 일괄 처리 - 회사·기관·카테고리 자동 분류, 표준 코드 이름변경 미리보기, 조회 통제표·매트릭스, 본문 데이터 카테고리별 집계까지. 설치 불필요·오프라인 동작·업로드한 PDF는 브라우저 밖으로 전송되지 않습니다.</p>
     </div>
     <div class="top-r">
       <button class="btn sm sec" id="editMaster">✏️ 마스터 직접 편집</button>
@@ -159,11 +159,11 @@
   </div>
 
   <div class="card hide" id="resultCard">
-    <h2><span class="step">2</span> 분류 결과 · 이름변경 미리보기 · BC0 통제표</h2>
+    <h2><span class="step">2</span> 분류 결과 · 이름변경 미리보기 · 조회 통제표</h2>
     <div class="sub">각 PDF에서 조회대상 회사·사업자번호·금융기관·카테고리를 추출해 표준 코드(BC+카테고리+일련번호+접미사)를 부여했습니다. 아래는 이름변경 미리보기이며, 실제 파일 이동 없이 통제표를 생성합니다.</div>
     <div id="summaryLine" class="note"></div>
     <div style="margin:10px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-      <button class="btn sm" id="dlBC0">BC0 통제표 (엑셀) 다운로드</button>
+      <button class="btn sm" id="dlBC0">조회 통제표 (엑셀) 다운로드</button>
       <button class="btn sm sec" id="saveFolder">회사별 폴더로 저장 (폴더 선택)</button>
       <button class="btn sm sec" id="saveZip">ZIP 다운로드 (회사별 폴더)</button>
       <span class="note" id="saveMsg" style="margin:0"></span>
@@ -177,7 +177,7 @@
 
   <div class="card" id="manualCard">
     <h2><span class="step">＋</span> 수기(오프라인) 회신본 입력</h2>
-    <div class="sub">우체국·지역농협처럼 스캔하거나 손으로 쓴 회신본은 PDF에 글자 정보가 없어 자동으로 읽을 수 없습니다. [분류·집계 실행]을 하면 이런 PDF는 이 표로 자동으로 옮겨집니다. 원본 PDF를 보며 섹션·금액·계좌 등을 입력하고 <b>[수정 반영 · 상단 재분류]</b>를 누르면 온라인 회신본과 함께 <b>BC0·매트릭스·BC_data</b>에 통합됩니다. PDF 없이 행을 직접 추가해도 되고, 건수가 많으면 아래 고급 메뉴의 엑셀 목록으로 입력할 수 있습니다.</div>
+    <div class="sub">우체국·지역농협처럼 스캔하거나 손으로 쓴 회신본은 PDF에 글자 정보가 없어 자동으로 읽을 수 없습니다. [분류·집계 실행]을 하면 이런 PDF는 이 표로 자동으로 옮겨집니다. 원본 PDF를 보며 섹션·금액·계좌 등을 입력하고 <b>[수정 반영 · 상단 재분류]</b>를 누르면 온라인 회신본과 함께 <b>조회 통제표·회신 집계</b>에 통합됩니다. PDF 없이 행을 직접 추가해도 되고, 건수가 많으면 아래 고급 메뉴의 엑셀 목록으로 입력할 수 있습니다.</div>
     <div class="mebar">
       <span class="note" id="ocrMsg" style="margin:0;color:#2e6bab">분류 후 글자를 읽을 수 없는 스캔본은 자동으로 이 표로 옮겨집니다.</span>
     </div>
@@ -202,7 +202,7 @@
   </div>
 
   <div class="card hide" id="companyCard">
-    <h2><span class="step">3</span> 회사별 본문 데이터 집계 (BC_data)</h2>
+    <h2><span class="step">3</span> 회사별 회신 집계 (엑셀)</h2>
     <div class="sub">회사별로 PDF 본문의 예적금·대출·지급보증·유가증권·보험·보증 등 섹션 데이터를 추출해 Summary(사업자번호×은행 KRW 합계)와 카테고리별 시트로 집계합니다. <b>수기 반영분도 함께 합산</b>됩니다.</div>
     <div class="grp" id="companyGrp"></div>
   </div>
@@ -508,7 +508,7 @@ function sortItems(items){return items.slice().sort((a,b)=>{const ca=a.final_com
 function buildBC0(items,asof,author){
   const rows=sortItems(items);
   const aoa=[];
-  aoa[0]=['','(통합)','','','','','조서번호','BC0'];
+  aoa[0]=['','(통합)'];
   aoa[1]=['',asof||new Date().toISOString().slice(0,10),'','','','','작성자',author||'-'];
   aoa[2]=['','금융기관조회서 Control sheet (다중 회사 통합)','','','','','date',new Date().toISOString().slice(0,10)];
   aoa[3]=[]; aoa[4]=['','1. Control sheet']; aoa[5]=['','(1) 발송 및 회신현황'];
@@ -1237,17 +1237,17 @@ function scrollToResult(){
 function makeBC0(){
   const wb=X().utils.book_new();
   const bc0=buildBC0(STATE.items,normAsof($('asof').value),$('author').value.trim());
-  X().utils.book_append_sheet(wb,bc0.ws,'BC0');
+  X().utils.book_append_sheet(wb,bc0.ws,'통제표');
   const mtx=buildMatrix(STATE.items);
   X().utils.book_append_sheet(wb,mtx.ws,'매트릭스');
   autoFitWorkbook(wb);
   const ab=X().write(wb,xlOpts({cellDates:true}));
-  return injectFreeze(ab,{'BC0':bc0.freeze,'매트릭스':mtx.freeze});
+  return injectFreeze(ab,{'통제표':bc0.freeze,'매트릭스':mtx.freeze});
 }
 $('dlBC0').onclick=()=>{
   const ab=makeBC0();
   const blob=new Blob([ab],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='BC0_금융기관조회서.xlsx';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='조회통제표.xlsx';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
 };
 $('dlOcrQueue').onclick=()=>{
   const q=buildOcrQueueWB(STATE.online||[]);
@@ -1286,13 +1286,13 @@ $('saveZip').onclick=async()=>{
   try{
     const plan=classifyPlan(); const files={}; const used={};
     for(const p of plan){ let base=p.folder+'/'+p.name; let key=base; if(used[key]){let i=2;while(used[p.folder+'/'+p.name.replace(/(\.pdf)$/i,'_'+i+'$1')])i++;key=p.folder+'/'+p.name.replace(/(\.pdf)$/i,'_'+i+'$1');} used[key]=1; files[key]=[new Uint8Array(await p.file.arrayBuffer()),{level:0}]; }
-    files['BC0_금융기관조회서.xlsx']=[new Uint8Array(makeBC0()),{level:6}];
+    files['조회통제표.xlsx']=[new Uint8Array(makeBC0()),{level:6}];
     const oq=buildOcrQueueWB(STATE.online||[]); if(oq.count){const qab=X().write(oq.wb,xlOpts());files['스캔본_입력목록.xlsx']=[new Uint8Array(qab),{level:6}];}
     const zipped=fflate.zipSync(files);
     const blob=new Blob([zipped],{type:'application/zip'});
     const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='금융기관조회서_정리.zip';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
     const nCo=new Set(plan.filter(p=>p.folder!=='_검토필요').map(p=>p.folder)).size;
-    $('saveMsg').textContent='ZIP 생성 완료 - '+plan.length+'개 PDF, '+nCo+'개 회사 폴더 (+ BC0). 압축을 풀어 사용하세요.';
+    $('saveMsg').textContent='ZIP 생성 완료 - '+plan.length+'개 PDF, '+nCo+'개 회사 폴더 (+ 조회 통제표). 압축을 풀어 사용하세요.';
   }catch(e){ $('saveMsg').textContent='ZIP 생성 실패: '+(e&&e.message||e); }
 };
 $('saveFolder').onclick=async()=>{
@@ -1309,10 +1309,10 @@ $('saveFolder').onclick=async()=>{
       used[key]=1;
       const fh=await dir.getFileHandle(name,{create:true}); const w=await fh.createWritable(); await w.write(new Uint8Array(await p.file.arrayBuffer())); await w.close(); n++;
     }
-    const bc0fh=await root.getFileHandle('BC0_금융기관조회서.xlsx',{create:true}); const bw=await bc0fh.createWritable(); await bw.write(new Uint8Array(makeBC0())); await bw.close();
+    const bc0fh=await root.getFileHandle('조회통제표.xlsx',{create:true}); const bw=await bc0fh.createWritable(); await bw.write(new Uint8Array(makeBC0())); await bw.close();
     const oq=buildOcrQueueWB(STATE.online||[]); if(oq.count){const qab=X().write(oq.wb,xlOpts());const qfh=await root.getFileHandle('스캔본_입력목록.xlsx',{create:true});const qw=await qfh.createWritable();await qw.write(new Uint8Array(qab));await qw.close();}
     const nCo=new Set(plan.filter(p=>p.folder!=='_검토필요').map(p=>p.folder)).size;
-    $('saveMsg').textContent='저장 완료 - '+n+'개 PDF를 '+nCo+'개 회사 폴더로 분류 저장 (+ BC0 통제표).';
+    $('saveMsg').textContent='저장 완료 - '+n+'개 PDF를 '+nCo+'개 회사 폴더로 분류 저장 (+ 조회 통제표).';
   }catch(e){ $('saveMsg').textContent='저장 중 오류: '+(e&&e.message||e); }
 };
 
@@ -1326,8 +1326,8 @@ function renderCompanies(){
     const fxN=rows.filter(r=>r.amount!=null&&normCur(r.currency)!=='KRW').length;
     const div=document.createElement('div'); div.className='cochip';
     div.innerHTML='<div class="nm">'+esc(co)+'</div><div class="mt">PDF '+items.length+' · 추출 행 '+rows.length+' · 금액 '+dataRows+'건'+(fxN?' <span class="badge fx">외화 '+fxN+'</span>':'')+'</div>';
-    const btn=document.createElement('button'); btn.className='btn sm'; btn.textContent='BC_data 다운로드';
-    btn.onclick=()=>{const {wb,freezeMap}=buildBCdata(co,items);saveWB(wb,freezeMap,'BC_data_금융조회 '+co+'.xlsx');};
+    const btn=document.createElement('button'); btn.className='btn sm'; btn.textContent='회신 집계 다운로드';
+    btn.onclick=()=>{const {wb,freezeMap}=buildBCdata(co,items);saveWB(wb,freezeMap,'회신집계_'+co+'.xlsx');};
     div.appendChild(btn); grp.appendChild(div);
   });
   $('companyCard').classList.toggle('hide',!cos.length);
