@@ -205,6 +205,7 @@
     <h2><span class="step">3</span> 회사별 회신 집계 (엑셀)</h2>
     <div class="sub">회사별로 PDF 본문의 예적금·대출·지급보증·유가증권·보험·보증 등 섹션 데이터를 추출해 요약(사업자번호×금융기관 KRW 합계)·점검·기관별과 섹션 시트로 집계합니다. <b>수기 반영분도 함께 합산</b>됩니다.</div>
     <div class="grp" id="companyGrp"></div>
+    <div id="rowView" class="hide"></div>
   </div>
 
   <div class="card" id="wolboCard">
@@ -228,7 +229,7 @@
 <div class="modal" id="meModal">
   <div class="box">
     <h3>🗂 금융기관 마스터 직접 편집</h3>
-    <div class="note" style="margin:0">기관을 직접 추가·수정·삭제합니다. <b>코드 규칙</b> - BC+카테고리(1은행·2증권·3보험·4보증)+2자리 일련번호. <b>온라인</b> 기관은 카테고리별 01~49, <b>수기</b>(우체국·지역농협 등) 기관은 <b>BC150~169</b> 예약대역을 사용합니다. 별칭은 <code>|</code>로 구분(매칭 보조표기).</div>
+    <div class="note" style="margin:0">기관을 직접 추가·수정·삭제합니다. <b>코드 규칙</b> - BC+카테고리(1은행·2증권·3보험·4보증)+2자리 일련번호. 새 기관은 온라인·수기 모두 <b>카테고리별 01~49의 다음 번호</b>를 쓰고, 은행 쪽 수기 묶음(우체국·지역농협 등)만 <b>BC150~169</b>를 씁니다. 코드는 한번 주면 바꾸거나 다른 기관에 다시 쓰지 않습니다. 별칭은 <code>|</code>로 구분(매칭 보조표기).</div>
     <div class="mebar">
       <button class="btn sm" id="meAddManual">+ 수기기관 추가 (BC15x)</button>
       <button class="btn sm sec" id="meAddOnline">+ 온라인기관 추가</button>
@@ -294,8 +295,8 @@ if (typeof window.pdfjsLib === 'undefined') {
   warn.style.cssText = 'position:sticky;top:0;z-index:9999;background:#b3261e;color:#fff;padding:12px 16px;font-weight:600';
   document.body.prepend(warn);
 }
-const APP_VERSION='공개판 2026.11.04';
-const MASTER = [{"code": "BC101", "std": "산업은행", "names": ["산업은행", "KDB산업은행", "한국산업은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC102", "std": "기업은행", "names": ["기업은행", "IBK기업은행", "중소기업은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC103", "std": "수협은행", "names": ["수협은행", "Sh수협은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC104", "std": "농협은행", "names": ["농협은행", "NH농협은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC105", "std": "한국수출입은행", "names": ["한국수출입은행", "수출입은행", "EXIM Bank", "KEXIM"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC106", "std": "국민은행", "names": ["국민은행", "KB국민은행"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC107", "std": "우리은행", "names": ["우리은행", "WOORI BANK"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC108", "std": "KEB하나은행", "names": ["KEB하나은행", "하나은행", "KEB", "KEB Hana Bank"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC109", "std": "신한은행", "names": ["신한은행", "Shinhan Bank"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC110", "std": "SC제일은행", "names": ["SC제일은행", "스탠다드차타드은행", "SC은행"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC111", "std": "카카오뱅크", "names": ["카카오뱅크", "kakaobank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC112", "std": "케이뱅크", "names": ["케이뱅크", "K뱅크", "Kbank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC113", "std": "토스뱅크", "names": ["토스뱅크", "Toss Bank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC114", "std": "씨티은행", "names": ["씨티은행", "한국씨티은행", "Citibank"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC115", "std": "HSBC", "names": ["HSBC", "에이치에스비씨", "HSBC은행"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC116", "std": "미즈호은행", "names": ["미즈호은행", "미즈호은행 서울지점"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC117", "std": "제이피모간체이스은행", "names": ["제이피모간체이스은행", "JP모간", "JPMorgan", "JPMorgan Chase"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC118", "std": "경남은행", "names": ["경남은행", "BNK경남은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC119", "std": "광주은행", "names": ["광주은행", "JB광주은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC120", "std": "부산은행", "names": ["부산은행", "BNK부산은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC121", "std": "아이엠뱅크(구 대구)", "names": ["아이엠뱅크(구 대구)", "대구은행", "iM뱅크", "DGB대구은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC122", "std": "전북은행", "names": ["전북은행", "JB전북은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC123", "std": "제주은행", "names": ["제주은행", "Jeju Bank"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC201", "std": "미래에셋증권", "names": ["미래에셋증권", "Mirae Asset Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC202", "std": "NH투자증권", "names": ["NH투자증권", "엔에이치투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC203", "std": "한국투자증권", "names": ["한국투자증권", "한국투자증권주식회사"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC204", "std": "신한투자증권", "names": ["신한투자증권", "신한금융투자"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC205", "std": "KB증권", "names": ["KB증권", "케이비증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC206", "std": "삼성증권", "names": ["삼성증권", "Samsung Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC207", "std": "메리츠증권", "names": ["메리츠증권", "Meritz Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC208", "std": "키움증권", "names": ["키움증권", "Kiwoom Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC209", "std": "하나증권", "names": ["하나증권", "하나금융투자", "KEB하나금융투자"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC210", "std": "대신증권", "names": ["대신증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC211", "std": "한화투자증권", "names": ["한화투자증권", "Hanwha Investment"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC212", "std": "현대차증권", "names": ["현대차증권", "현대차증권주식회사", "HMC투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC213", "std": "교보증권", "names": ["교보증권", "Kyobo Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC214", "std": "SK증권", "names": ["SK증권", "에스케이증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC215", "std": "아이엠증권", "names": ["아이엠증권", "iM증권", "하이투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC216", "std": "한국증권금융", "names": ["한국증권금융", "KSF"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC217", "std": "BNK투자증권", "names": ["BNK투자증권", "BNK증권", "비엔케이투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC218", "std": "DB증권", "names": ["DB증권", "DB금융투자", "디비금융투자", "동부증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC219", "std": "IBK투자증권", "names": ["IBK투자증권", "아이비케이투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC220", "std": "LS증권", "names": ["LS증권", "이베스트투자증권", "이베스트증권", "엘에스증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC221", "std": "NH선물", "names": ["NH선물", "엔에이치선물"], "major": "증권", "sub": "선물", "route": "수기"}, {"code": "BC222", "std": "DS투자증권", "names": ["DS투자증권", "디에스투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC223", "std": "상상인증권", "names": ["상상인증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC224", "std": "신영증권", "names": ["신영증권", "Shinyoung"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC225", "std": "우리투자증권", "names": ["우리투자증권", "포스증권", "한국포스증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC226", "std": "유안타증권", "names": ["유안타증권", "Yuanta", "동양증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC227", "std": "유진투자증권", "names": ["유진투자증권", "유진증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC228", "std": "케이프투자증권", "names": ["케이프투자증권", "케이프증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC301", "std": "삼성생명보험", "names": ["삼성생명보험", "삼성생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC302", "std": "한화생명보험", "names": ["한화생명보험", "한화생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC303", "std": "교보생명보험", "names": ["교보생명보험", "교보생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC304", "std": "신한라이프생명보험", "names": ["신한라이프생명보험", "신한라이프", "신한생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC305", "std": "미래에셋생명", "names": ["미래에셋생명", "미래에셋생명보험"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC306", "std": "NH농협생명보험", "names": ["NH농협생명보험", "농협생명", "NH농협생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC307", "std": "흥국생명보험", "names": ["흥국생명보험", "흥국생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC308", "std": "삼성화재해상보험", "names": ["삼성화재해상보험", "삼성화재", "Samsung Fire"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC309", "std": "현대해상화재보험", "names": ["현대해상화재보험", "현대해상", "Hyundai Marine"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC310", "std": "DB손해보험", "names": ["DB손해보험", "DB손보", "동부화재"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC311", "std": "KB손해보험", "names": ["KB손해보험", "KB손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC312", "std": "메리츠화재해상보험", "names": ["메리츠화재해상보험", "메리츠화재", "메리츠손해보험"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC313", "std": "한화손해보험", "names": ["한화손해보험", "한화손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC314", "std": "롯데손해보험", "names": ["롯데손해보험", "롯데손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC315", "std": "NH농협손해보험", "names": ["NH농협손해보험", "농협손보", "NH농협손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC316", "std": "에이아이지 손해보험", "names": ["에이아이지 손해보험", "AIG손해보험", "AIG"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC317", "std": "KDB생명보험", "names": ["KDB생명보험", "KDB생명"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC318", "std": "메트라이프생명보험", "names": ["메트라이프생명보험", "메트라이프", "MetLife"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC319", "std": "에이스아메리칸화재해상보험", "names": ["에이스아메리칸화재해상보험", "에이스손해보험", "에이스화재", "처브", "Chubb"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC320", "std": "예별손해보험", "names": ["예별손해보험", "예별손보", "MG손해보험", "MG손보"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC321", "std": "푸본현대생명보험", "names": ["푸본현대생명보험", "푸본현대생명", "푸본생명", "Fubon"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC322", "std": "흥국화재해상보험", "names": ["흥국화재해상보험", "흥국화재"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC401", "std": "서울보증보험", "names": ["서울보증보험", "SGI서울보증", "SGI", "Seoul Guarantee Insurance"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC402", "std": "신용보증기금", "names": ["신용보증기금", "KODIT"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC403", "std": "기술보증기금", "names": ["기술보증기금", "KIBO", "Kibo"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC150", "std": "우체국", "names": ["우체국", "우체국", "우체국예금", "중앙우체국"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC151", "std": "단위농협", "names": ["단위농협", "지역농협", "단위농협", "농협조합", "지역농축협", "농협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC152", "std": "새마을금고", "names": ["새마을금고", "MG새마을금고", "새마을금고", "새마을"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC153", "std": "신협", "names": ["신협", "신용협동조합", "단위신협", "신협중앙회", "신협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC154", "std": "산림조합", "names": ["산림조합", "산림조합중앙회", "단위산림조합", "산림조합"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC155", "std": "수산업협동조합", "names": ["수산업협동조합", "수산업협동조합중앙회", "수산업협동조합", "단위수협", "수협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC156", "std": "외국계 비참여은행", "names": ["외국계 비참여은행", "외국계기타", "외국은행", "외국계비참여"], "major": "은행", "sub": "외국계은행", "route": "수기"}, {"code": "BC157", "std": "여신전문금융(캐피탈 등)", "names": ["여신전문금융(캐피탈 등)", "캐피탈", "캐피털", "커머셜", "파이낸셜", "오토리스"], "major": "은행", "sub": "여신전문", "route": "수기"}, {"code": "BC158", "std": "공제조합", "names": ["공제조합", "공제조합"], "major": "보증", "sub": "공제조합", "route": "수기"}, {"code": "BC159", "std": "정책금융 공단", "names": ["정책금융 공단", "중소벤처기업진흥공단", "중소기업진흥공단", "중진공", "소상공인시장진흥공단", "진흥공단"], "major": "은행", "sub": "정책금융", "route": "수기"}]
+const APP_VERSION='공개판 2026.11.04.2';
+const MASTER = [{"code": "BC101", "std": "산업은행", "names": ["산업은행", "KDB산업은행", "한국산업은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC102", "std": "기업은행", "names": ["기업은행", "IBK기업은행", "중소기업은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC103", "std": "수협은행", "names": ["수협은행", "Sh수협은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC104", "std": "농협은행", "names": ["농협은행", "NH농협은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC105", "std": "한국수출입은행", "names": ["한국수출입은행", "수출입은행", "EXIM Bank", "KEXIM"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC106", "std": "국민은행", "names": ["국민은행", "KB국민은행"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC107", "std": "우리은행", "names": ["우리은행", "WOORI BANK"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC108", "std": "KEB하나은행", "names": ["KEB하나은행", "하나은행", "KEB", "KEB Hana Bank"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC109", "std": "신한은행", "names": ["신한은행", "Shinhan Bank"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC110", "std": "SC제일은행", "names": ["SC제일은행", "스탠다드차타드은행", "SC은행"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC111", "std": "카카오뱅크", "names": ["카카오뱅크", "kakaobank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC112", "std": "케이뱅크", "names": ["케이뱅크", "K뱅크", "Kbank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC113", "std": "토스뱅크", "names": ["토스뱅크", "Toss Bank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC114", "std": "씨티은행", "names": ["씨티은행", "한국씨티은행", "Citibank"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC115", "std": "HSBC", "names": ["HSBC", "에이치에스비씨", "HSBC은행"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC116", "std": "미즈호은행", "names": ["미즈호은행", "미즈호은행 서울지점"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC117", "std": "제이피모간체이스은행", "names": ["제이피모간체이스은행", "JP모간", "JPMorgan", "JPMorgan Chase"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC118", "std": "경남은행", "names": ["경남은행", "BNK경남은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC119", "std": "광주은행", "names": ["광주은행", "JB광주은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC120", "std": "부산은행", "names": ["부산은행", "BNK부산은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC121", "std": "아이엠뱅크(구 대구)", "names": ["아이엠뱅크(구 대구)", "대구은행", "iM뱅크", "DGB대구은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC122", "std": "전북은행", "names": ["전북은행", "JB전북은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC123", "std": "제주은행", "names": ["제주은행", "Jeju Bank"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC124", "std": "중소벤처기업진흥공단", "names": ["중소벤처기업진흥공단", "중소기업진흥공단", "중진공"], "major": "은행", "sub": "정책금융", "route": "온라인"}, {"code": "BC201", "std": "미래에셋증권", "names": ["미래에셋증권", "Mirae Asset Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC202", "std": "NH투자증권", "names": ["NH투자증권", "엔에이치투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC203", "std": "한국투자증권", "names": ["한국투자증권", "한국투자증권주식회사"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC204", "std": "신한투자증권", "names": ["신한투자증권", "신한금융투자"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC205", "std": "KB증권", "names": ["KB증권", "케이비증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC206", "std": "삼성증권", "names": ["삼성증권", "Samsung Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC207", "std": "메리츠증권", "names": ["메리츠증권", "Meritz Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC208", "std": "키움증권", "names": ["키움증권", "Kiwoom Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC209", "std": "하나증권", "names": ["하나증권", "하나금융투자", "KEB하나금융투자"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC210", "std": "대신증권", "names": ["대신증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC211", "std": "한화투자증권", "names": ["한화투자증권", "Hanwha Investment"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC212", "std": "현대차증권", "names": ["현대차증권", "현대차증권주식회사", "HMC투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC213", "std": "교보증권", "names": ["교보증권", "Kyobo Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC214", "std": "SK증권", "names": ["SK증권", "에스케이증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC215", "std": "아이엠증권", "names": ["아이엠증권", "iM증권", "하이투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC216", "std": "한국증권금융", "names": ["한국증권금융", "KSF"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC217", "std": "BNK투자증권", "names": ["BNK투자증권", "BNK증권", "비엔케이투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC218", "std": "DB증권", "names": ["DB증권", "DB금융투자", "디비금융투자", "동부증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC219", "std": "IBK투자증권", "names": ["IBK투자증권", "아이비케이투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC220", "std": "LS증권", "names": ["LS증권", "이베스트투자증권", "이베스트증권", "엘에스증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC221", "std": "NH선물", "names": ["NH선물", "엔에이치선물"], "major": "증권", "sub": "선물", "route": "수기"}, {"code": "BC222", "std": "DS투자증권", "names": ["DS투자증권", "디에스투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC223", "std": "상상인증권", "names": ["상상인증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC224", "std": "신영증권", "names": ["신영증권", "Shinyoung"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC225", "std": "우리투자증권", "names": ["우리투자증권", "포스증권", "한국포스증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC226", "std": "유안타증권", "names": ["유안타증권", "Yuanta", "동양증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC227", "std": "유진투자증권", "names": ["유진투자증권", "유진증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC228", "std": "케이프투자증권", "names": ["케이프투자증권", "케이프증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC301", "std": "삼성생명보험", "names": ["삼성생명보험", "삼성생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC302", "std": "한화생명보험", "names": ["한화생명보험", "한화생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC303", "std": "교보생명보험", "names": ["교보생명보험", "교보생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC304", "std": "신한라이프생명보험", "names": ["신한라이프생명보험", "신한라이프", "신한생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC305", "std": "미래에셋생명", "names": ["미래에셋생명", "미래에셋생명보험"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC306", "std": "NH농협생명보험", "names": ["NH농협생명보험", "농협생명", "NH농협생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC307", "std": "흥국생명보험", "names": ["흥국생명보험", "흥국생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC308", "std": "삼성화재해상보험", "names": ["삼성화재해상보험", "삼성화재", "Samsung Fire"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC309", "std": "현대해상화재보험", "names": ["현대해상화재보험", "현대해상", "Hyundai Marine"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC310", "std": "DB손해보험", "names": ["DB손해보험", "DB손보", "동부화재", "디비손해보험"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC311", "std": "KB손해보험", "names": ["KB손해보험", "KB손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC312", "std": "메리츠화재해상보험", "names": ["메리츠화재해상보험", "메리츠화재", "메리츠손해보험"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC313", "std": "한화손해보험", "names": ["한화손해보험", "한화손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC314", "std": "롯데손해보험", "names": ["롯데손해보험", "롯데손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC315", "std": "NH농협손해보험", "names": ["NH농협손해보험", "농협손보", "NH농협손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC316", "std": "에이아이지 손해보험", "names": ["에이아이지 손해보험", "AIG손해보험", "AIG"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC317", "std": "KDB생명보험", "names": ["KDB생명보험", "KDB생명"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC318", "std": "메트라이프생명보험", "names": ["메트라이프생명보험", "메트라이프", "MetLife"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC319", "std": "에이스아메리칸화재해상보험", "names": ["에이스아메리칸화재해상보험", "에이스손해보험", "에이스화재", "처브", "Chubb"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC320", "std": "예별손해보험", "names": ["예별손해보험", "예별손보", "MG손해보험", "MG손보"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC321", "std": "푸본현대생명보험", "names": ["푸본현대생명보험", "푸본현대생명", "푸본생명", "Fubon"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC322", "std": "흥국화재해상보험", "names": ["흥국화재해상보험", "흥국화재"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC401", "std": "서울보증보험", "names": ["서울보증보험", "SGI서울보증", "SGI", "Seoul Guarantee Insurance"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC402", "std": "신용보증기금", "names": ["신용보증기금", "KODIT"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC403", "std": "기술보증기금", "names": ["기술보증기금", "KIBO", "Kibo"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC150", "std": "우체국", "names": ["우체국", "우체국", "우체국예금", "중앙우체국"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC151", "std": "단위농협", "names": ["단위농협", "지역농협", "단위농협", "농협조합", "지역농축협", "농협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC152", "std": "새마을금고", "names": ["새마을금고", "MG새마을금고", "새마을금고", "새마을"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC153", "std": "신협", "names": ["신협", "신용협동조합", "단위신협", "신협중앙회", "신협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC154", "std": "산림조합", "names": ["산림조합", "산림조합중앙회", "단위산림조합", "산림조합"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC155", "std": "수산업협동조합", "names": ["수산업협동조합", "수산업협동조합중앙회", "수산업협동조합", "단위수협", "수협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC156", "std": "외국계 비참여은행", "names": ["외국계 비참여은행", "외국계기타", "외국은행", "외국계비참여"], "major": "은행", "sub": "외국계은행", "route": "수기"}, {"code": "BC157", "std": "여신전문금융(캐피탈 등)", "names": ["여신전문금융(캐피탈 등)", "캐피탈", "캐피털", "커머셜", "파이낸셜", "오토리스"], "major": "은행", "sub": "여신전문", "route": "수기"}, {"code": "BC158", "std": "공제조합", "names": ["공제조합", "공제조합"], "major": "보증", "sub": "공제조합", "route": "수기"}, {"code": "BC159", "std": "정책금융 공단", "names": ["정책금융 공단", "소상공인시장진흥공단", "진흥공단"], "major": "은행", "sub": "정책금융", "route": "수기"}]
 ;
 let LIVE_MASTER = MASTER.map(e=>Object.assign({},e,{names:e.names.slice()}));
 let CODE_INFO = {};
@@ -304,6 +305,11 @@ rebuildCodeInfo();
 
 function mul(m1,m2){return [m1[0]*m2[0]+m1[2]*m2[1],m1[1]*m2[0]+m1[3]*m2[1],m1[0]*m2[2]+m1[2]*m2[3],m1[1]*m2[2]+m1[3]*m2[3],m1[0]*m2[4]+m1[2]*m2[5]+m1[4],m1[1]*m2[4]+m1[3]*m2[5]+m1[5]];}
 function ap(m,x,y){return [m[0]*x+m[2]*y+m[4],m[1]*x+m[3]*y+m[5]];}
+function wordsFromText(tc,VT){const words=[];
+  for(const it of tc.items){ if(!it.str||!it.str.trim())continue; const M=mul(VT,it.transform);
+    const x=M[4], yb=M[5]; const h=(it.height||Math.hypot(it.transform[2],it.transform[3])||8);
+    words.push({text:it.str,x0:x,x1:x+(it.width||0),top:yb-h,bottom:yb}); }
+  return words;}
 async function pageGeom(page){
   const vp=page.getViewport({scale:1}), VT=vp.transform;
   const ops=await page.getOperatorList(), OPS=pdfjsLib.OPS;
@@ -324,10 +330,7 @@ async function pageGeom(page){
       }
     }
   }
-  const tc=await page.getTextContent(); const words=[];
-  for(const it of tc.items){ if(!it.str||!it.str.trim())continue; const M=mul(VT,it.transform);
-    const x=M[4], yb=M[5]; const h=(it.height||Math.hypot(it.transform[2],it.transform[3])||8);
-    words.push({text:it.str,x0:x,x1:x+(it.width||0),top:yb-h,bottom:yb}); }
+  const words=wordsFromText(await page.getTextContent(),VT);
   const sw=words.slice().sort((a,b)=>a.top-b.top||a.x0-b.x0); const lns=[]; let cur=[];
   for(const w of sw){ if(!cur.length||Math.abs(w.top-cur[0].top)<=3.5)cur.push(w); else{lns.push(cur);cur=[w];} }
   if(cur.length)lns.push(cur);
@@ -461,7 +464,8 @@ function parseExisting(fn){const b=fn.replace(/\.[^.]+$/,'');const m=b.match(REN
 
 const ST_OK='텍스트 일치',ST_READ='판독',ST_HUMAN='사람 확인',ST_CHECK='원본 확인',ST_MANUAL='수기',ST_NOAMT='금액 없음',ST_ORDER=[ST_OK,ST_READ,ST_HUMAN,ST_CHECK,ST_MANUAL,ST_NOAMT];
 function amountOnPage(n,text){const plain=text.replace(/,/g,'');if(typeof n==='string')return new RegExp('(?<![\\d.])'+n+'(?!\\d)').test(plain);const esc=x=>x.replace(/[.,]/g,'\\$&'),whole=Number.isInteger(n);const forms=whole?[String(n)]:[String(n),n.toFixed(2)];if(forms.some(f=>new RegExp('(?<![\\d.])'+esc(f)+'(?!\\d)').test(plain)))return true;const p=(whole?String(n):n.toFixed(2)).split('.');const s=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',')+(p[1]?'.'+p[1]:'');for(let i=1;i<s.length;i++){if(new RegExp('(?<![\\d,.])'+esc(s.slice(0,i))+'(?![\\d,])[\\s\\S]{0,300}?(?<![\\d,.])'+esc(s.slice(i))+'(?![\\d,])').test(text))return true;}return false;}
-function tagTextRows(rows,page,pageText){const text=String(pageText||'');for(const r of rows){r.source_page=page||'';const vals=[];for(const k of Object.keys(r)){if(AMOUNT_COLS.has(k)||(/금액|한도|수량|단가|잔고|수수료|제세금|이자|평가|좌수|보험료|보증료|원리금/.test(k)&&!/번호/.test(k))){for(const part of (typeof r[k]==='string'?r[k].split(/\s+/):[r[k]])){const n=cleanAmount(part)[1];if(n){const t=typeof part==='string'?part.replace(/,/g,''):'';vals.push(/^\d+$/.test(t)?t:Math.abs(n));}}}}r.status=!vals.length?ST_NOAMT:vals.every(n=>amountOnPage(n,text))?ST_OK:ST_CHECK;}}
+function rowCheckVals(r){const vals=[];for(const k of Object.keys(r)){if(AMOUNT_COLS.has(k)||(/금액|한도|수량|단가|잔고|수수료|제세금|이자|평가|좌수|보험료|보증료|원리금/.test(k)&&!/번호/.test(k))){for(const part of (typeof r[k]==='string'?r[k].split(/\s+/):[r[k]])){const n=cleanAmount(part)[1];if(n){const t=typeof part==='string'?part.replace(/,/g,''):'';vals.push(/^\d+$/.test(t)?t:Math.abs(n));}}}}return vals;}
+function tagTextRows(rows,page,pageText){const text=String(pageText||'');for(const r of rows){r.source_page=page||'';const vals=rowCheckVals(r);r.status=!vals.length?ST_NOAMT:vals.every(n=>amountOnPage(n,text))?ST_OK:ST_CHECK;}}
 function statusLine(rows){const c={};rows.forEach(r=>{if(r.status)c[r.status]=(c[r.status]||0)+1;});return {text:Object.keys(c).length?'행 상태: '+ST_ORDER.filter(k=>c[k]).map(k=>k+' '+c[k]).join(' · '):'',check:c[ST_CHECK]||0};}
 function processTables(fname, tables, orderedFull, pageTexts){
   const existing=parseExisting(fname);
@@ -556,18 +560,28 @@ function buildMatrix(items){
 
 const OCR_HEADERS=['원본PDF','회사','기관표준명','실제기관명','섹션','금액','상품명','계좌번호','이자율','만기일','통화','한도액','비고','원본페이지','메모','검토상태'];
 function isOcrPending(it){return !!(it&&it.file&&!it.is_manual&&!String(it.fullText||'').trim());}
+function uniquePdfNames(items){
+  const by={};items.forEach(it=>{(by[it.pdf_name]=by[it.pdf_name]||[]).push(it);});
+  Object.values(by).filter(g=>g.length>1).forEach(g=>{
+    const dirs=g.map(it=>{const p=String((it.file&&(it.file._dropPath||it.file.webkitRelativePath))||'').split(/[\\/]/);return p.length>1?p[p.length-2]:'';});
+    const ok=dirs.every(Boolean)&&new Set(dirs).size===dirs.length;
+    g.forEach((it,i)=>{it.pdf_name=it.pdf_name.replace(/\.pdf$/i,'')+' ('+(ok?dirs[i]:i+1)+').pdf';});
+  });
+}
+function scanFileName(it){return it.file&&it.file.name||it.pdf_name;}
 function guessScanFilename(filename){
   let stem=String(filename||'').replace(/\.pdf$/i,'').trim();
-  stem=stem.replace(/^BC\d+[a-z]?\s*/i,'').trim();
+  const codeHit=stem.match(/(?:^|\s)(BC\d{3})[a-z]?(?=\s|$)/i);
+  stem=stem.replace(/(^|\s)BC\d+[a-z]?(?=\s|$)/ig,' ').replace(/\s+/g,' ').trim();
   const parts=stem.split(/\s+/).filter(Boolean);
   const bankActual=parts.length?parts[parts.length-1]:stem;
   const company=parts.length>1?parts.slice(0,-1).join(' '):'';
-  const ent=matchBankManual(bankActual);
+  const ent=matchBankManual(bankActual)||(codeHit&&LIVE_MASTER.find(e=>e.code===codeHit[1].toUpperCase()))||null;
   return {company,bank_std:ent?ent.std:'',bank_actual:bankActual};
 }
 function buildOcrQueueWB(items){
   const pending=(items||[]).filter(isOcrPending);
-  const rows=pending.map(it=>{const g=guessScanFilename(it.pdf_name);return [it.pdf_name,g.company,g.bank_std,g.bank_actual,'','','','','','','KRW','','','','','입력대기'];});
+  const rows=pending.map(it=>{const g=guessScanFilename(scanFileName(it));return [it.pdf_name,g.company,g.bank_std,g.bank_actual,'','','','','','','KRW','','','','','입력대기'];});
   const wb=X().utils.book_new();
   const guide=[
     ['스캔본 엑셀 입력 목록'],
@@ -622,12 +636,12 @@ const BC_SUM_ORDER=['예적금','대출','지급보증','유가증권_요약','�
 const BC_SUM_HEAD={'예적금':'금액','대출':'대출금액','지급보증':'실행금액','유가증권_요약':'금융상품금액','보험':'부보금액','보증':'보증금액'};
 const BC_MAJOR={'1':'은행·기타 금융기관','2':'증권','3':'보험','4':'보증'};
 const BC_NOT_CONTENT=new Set(['currency','limit_currency','appraisal_currency','setting_currency','prior_setting_currency','product_type']);
-const BC_META=new Set(['section','pdf_file','code','suffix','code_full','bank_name','major_category','sub_category','biz_num','source_page','status','_manual','_ocr','ocr_confidence','review_status']);
+const BC_META=new Set(['section','pdf_file','code','suffix','code_full','bank_name','major_category','sub_category','biz_num','source_page','source_box','status','_manual','_ocr','ocr_confidence','review_status']);
 const bcCmp=(a,b)=>a<b?-1:a>b?1:0;
 const bcHasAmt=r=>r.status!==ST_NOAMT;
 function bcRowBlank(r){const cols=BC_SECTIONS[r.section];return !!cols&&!cols.some(([k])=>!BC_NOT_CONTENT.has(k)&&r[k]!==null&&r[k]!==undefined&&r[k]!=='');}
 function bcIsPlaceholder(r){if(BC_SECTIONS[r.section])return false;for(const k of Object.keys(r)){if(BC_META.has(k)||k.startsWith('col_'))continue;if(!['','-','해당 거래 없음','해당사항 없음'].includes(String(r[k]??'').trim()))return false;}return true;}
-function bcPut(ws,r,c,v,s,z,t){const o={t:t||(typeof v==='number'?'n':'s'),v:(v===null||v===undefined)?'':v};if(z)o.z=z;if(s)o.s=s;ws[X().utils.encode_cell({r,c})]=o;}
+function bcPut(ws,r,c,v,s,z,t){const o={t:typeof v==='number'?'n':(t||'s'),v:(v===null||v===undefined)?'':v};if(z)o.z=z;if(s)o.s=s;ws[X().utils.encode_cell({r,c})]=o;}
 function bcCell(ws,r,c,key,val,s){if(key==='amount_raw'){bcPut(ws,r,c,val===null||val===undefined?'':String(val),s);return;}if(DATE_COLS.has(key)&&/^(00000000|00010101)$/.test(String(val??''))){bcPut(ws,r,c,'',s);return;}if(AMOUNT_COLS.has(key)&&typeof val==='string'){const n=cleanAmount(val)[1];if(n!==null){bcPut(ws,r,c,n,s,numZ(n));return;}}const cf=cellFor(key,val);let z=cf.z;if(cf.t==='n'&&AMOUNT_COLS.has(key)&&typeof cf.v==='number')z=numZ(cf.v);bcPut(ws,r,c,cf.v,s,z,cf.t);}
 function bcEnd(ws,lastRow,lastCol,merges){ws['!ref']=X().utils.encode_range({s:{r:0,c:0},e:{r:Math.max(lastRow,0),c:Math.max(lastCol,0)}});if(merges&&merges.length)ws['!merges']=merges;}
 const BC_HEAD_S=()=>styl({fill:HDRC,bold:true,white:true,h:'center',wrap:true});
@@ -1166,7 +1180,13 @@ function handleFiles(list,folderCount){
   $('run').disabled=!PENDING.length;
   $('reset').classList.toggle('hide',!PENDING.length);
 }
-$('reset').onclick=()=>{PENDING=[];fileInput.value='';folderInput.value='';$('dropinfo').textContent='여러 파일·폴더 동시 드롭 가능 · 하위 폴더 재귀 탐색 · 회사별 자동 분류';$('run').disabled=true;$('log').classList.add('hide');$('log').textContent='';$('resultCard').classList.add('hide');$('companyCard').classList.add('hide');$('reset').classList.add('hide');};
+$('reset').onclick=()=>{
+  const nMan=document.querySelectorAll('#manBody tr').length;
+  if(nMan&&!confirm('수기 입력 표의 '+nMan+'행도 함께 지웁니다. 계속할까요?'))return;
+  srcClose();ROWVIEW.co=null;ROWVIEW.status='';ROWVIEW.section='';$('rowView').classList.add('hide');$('rowView').innerHTML='';
+  $('manBody').innerHTML='';$('manMsg').textContent='';$('wolboMsg').textContent='';
+  STATE.items=[];STATE.byCompany={};STATE.online=[];STATE.manual=[];STATE.failed=[];
+  PENDING=[];fileInput.value='';folderInput.value='';$('dropinfo').textContent='여러 파일·폴더 동시 드롭 가능 · 하위 폴더 재귀 탐색 · 회사별 자동 분류';$('run').disabled=true;$('log').classList.add('hide');$('log').textContent='';$('resultCard').classList.add('hide');$('companyCard').classList.add('hide');$('reset').classList.add('hide');};
 
 $('run').onclick=async()=>{
   $('run').disabled=true; $('run').innerHTML='<span class="spin"></span>처리 중…'; $('log').textContent='';
@@ -1186,6 +1206,7 @@ $('run').onclick=async()=>{
       }
     }
     STATE.failed=failed;
+    uniquePdfNames(items);
     assignCodes(items);
     STATE.online=items;
     integrate();
@@ -1257,7 +1278,7 @@ async function transferAndStartOcr(autoRun){
   const pending=(STATE.online||[]).filter(isOcrPending);
   if(!pending.length){setOcrStatus('');return;}
   refreshMancoDL();let added=0;
-  for(const it of pending){if(findManualRowBySource(it.pdf_name))continue;const g=guessScanFilename(it.pdf_name);const tr=manRow({company:g.company,bank_std:g.bank_std,bank_actual:g.bank_actual,section:'',currency:'KRW',source_pdf:it.pdf_name,source_page:'',review_status:'OCR초안',note:'스캔본 - 원본을 보고 입력'});$('manBody').appendChild(tr);added++;}
+  for(const it of pending){if(findManualRowBySource(it.pdf_name))continue;const g=guessScanFilename(scanFileName(it));const tr=manRow({company:g.company,bank_std:g.bank_std,bank_actual:g.bank_actual,section:'',currency:'KRW',source_pdf:it.pdf_name,source_page:'',review_status:'OCR초안',note:'스캔본 - 원본을 보고 입력'});$('manBody').appendChild(tr);added++;}
   if(!autoRun)$('manualCard').scrollIntoView({behavior:'smooth',block:'start'});
   setOcrStatus('글자를 읽을 수 없는 스캔본 '+pending.length+'건을 아래 수기 입력 표로 옮겼습니다'+(added<pending.length?(' (새로 옮긴 것 '+added+'건)'):'')+'. 원본 PDF를 보며 섹션·금액 등을 입력하고(잔액이 없는 회신은 섹션을 비워 둠) [수정 반영 · 상단 재분류]를 누르세요.');
 }
@@ -1325,6 +1346,7 @@ function renderCompanies(){
     div.appendChild(btn); grp.appendChild(div);
   });
   $('companyCard').classList.toggle('hide',!cos.length);
+  if(ROWVIEW.co){if(STATE.byCompany[ROWVIEW.co])renderRowView(ROWVIEW.co);else{ROWVIEW.co=null;$('rowView').classList.add('hide');$('rowView').innerHTML='';}}
 }
 
 const MASTER_HEADERS=['Code','표준명','별칭','대분류','세부분류','비고','회신경로'];
@@ -1371,11 +1393,11 @@ function parseKftcWB(wb){
   return insts;
 }
 function mergeKftc(insts){
-  const existing=new Set(LIVE_MASTER.map(e=>e.std));
+  const nk=s=>String(s||'').replace(/\s+/g,'');const existing=new Set(LIVE_MASTER.flatMap(e=>e.names.concat(e.std)).map(nk));
   const maxNum={1:0,2:0,3:0,4:0};
   LIVE_MASTER.forEach(e=>{const m=e.code.match(/BC(\d)(\d{2})/);if(m){const c=+m[1],n=+m[2];if(maxNum[c]!==undefined&&n<50&&n>maxNum[c])maxNum[c]=n;}});
   const added=[];
-  for(const it of insts){ if(existing.has(it.name))continue; const cd=CAT_DIGIT[it.category]; if(!cd)continue; maxNum[cd]+=1; const code='BC'+cd+String(maxNum[cd]).padStart(2,'0'); added.push({code,std:it.name,names:[it.name],major:it.category,sub:{은행:'시중은행',증권:'증권',보험:'손해보험',보증:'보증'}[it.category]||'',route:'온라인'}); existing.add(it.name); }
+  for(const it of insts){ if(existing.has(nk(it.name)))continue; const cd=CAT_DIGIT[it.category]; if(!cd)continue; maxNum[cd]+=1; const code='BC'+cd+String(maxNum[cd]).padStart(2,'0'); added.push({code,std:it.name,names:[it.name],major:it.category,sub:{은행:'시중은행',증권:'증권',보험:'손해보험',보증:'보증'}[it.category]||'',route:'온라인'}); existing.add(nk(it.name)); }
   return added;
 }
 function setMaster(entries, label){
@@ -1495,6 +1517,7 @@ function numOrNull(v){ if(v==null||v==='')return null; const n=parseFloat(String
 function dateNorm(v){ if(v==null)return''; return String(v).trim().replace(/[-/.]/g,''); }
 function matchBankManual(bankName){
   if(!bankName)return null; const bc=bankName.replace(/\s+/g,''); const cands=[];
+  for(const e of LIVE_MASTER){ if(e.names.some(n=>n.replace(/\s+/g,'')===bc))return e; }
   for(const e of LIVE_MASTER){ for(const n of e.names){ const nc=n.replace(/\s+/g,''); if(!nc)continue; if(nc.includes(bc)||bc.includes(nc)){ cands.push([nc.length, e.route==='수기'?1:0, e]); break; } } }
   if(!cands.length)return null; cands.sort((a,b)=>b[0]-a[0]||b[1]-a[1]); return cands[0][2];
 }
@@ -1504,7 +1527,7 @@ function cleanManualNote(v){return String(v||'').split(';').map(p=>p.replace(/\(
 function manualTxToRow(tx,r,biz){
   const section=(tx.section||'').trim(); if(!section)return null;
   const sourcePdf=(tx.source_pdf||'').trim(); const pf=sourcePdf||r.coClean+' '+r.final_code+' '+r.bank_name+'.pdf';
-  const common={section,pdf_file:pf,code:r.base,suffix:'',bank_name:r.bank_name,major_category:r.ent.major,sub_category:r.ent.sub||'',biz_num:biz,_manual:true,_ocr:!!sourcePdf,source_page:tx.source_page||'',status:tx.review_status==='OCR초안'?ST_CHECK:(tx.row_status||ST_MANUAL),ocr_confidence:tx.ocr_confidence||'',review_status:tx.review_status||''};
+  const common={section,pdf_file:pf,code:r.base,suffix:'',bank_name:r.bank_name,major_category:r.ent.major,sub_category:r.ent.sub||'',biz_num:biz,_manual:true,_ocr:!!sourcePdf,source_page:tx.source_page||'',source_box:tx.source_box||null,status:tx.review_status==='OCR초안'?ST_CHECK:(tx.row_status||ST_MANUAL),ocr_confidence:tx.ocr_confidence||'',review_status:tx.review_status||''};
   const amt=numOrNull(tx.amount),lim=numOrNull(tx.limit); let cur=(tx.currency||'').trim().toUpperCase()||'KRW'; if(cur==='WON')cur='KRW';
   const rate=(tx.rate==null||tx.rate==='')?'':String(tx.rate); const maturity=dateNorm(tx.maturity);
   const product=(tx.product||'').trim(),account=(tx.account||'').trim(),note=cleanManualNote(tx.note);
@@ -1563,7 +1586,7 @@ function bindManualFormats(tr){
 const amtKey=v=>String(v??'').replace(/[,\s]/g,'');
 function manRow(pre){
   pre=pre||{}; const tr=document.createElement('tr'); if(pre.nil)tr.className='manual';
-  tr.dataset.sourcePdf=pre.source_pdf||''; tr.dataset.sourcePage=pre.source_page||''; tr.dataset.ocrConfidence=pre.ocr_confidence||''; tr.dataset.reviewStatus=pre.review_status||''; tr.dataset.rowStatus=pre.row_status||''; tr.dataset.readAmount=pre.row_status===ST_READ?amtKey(pre.amount):'';
+  tr.dataset.sourcePdf=pre.source_pdf||''; tr.dataset.sourcePage=pre.source_page||''; tr.dataset.ocrConfidence=pre.ocr_confidence||''; tr.dataset.reviewStatus=pre.review_status||''; tr.dataset.rowStatus=pre.row_status||''; tr.dataset.readAmount=pre.row_status===ST_READ?amtKey(pre.amount):''; tr.dataset.sourceBox=Array.isArray(pre.source_box)?JSON.stringify(pre.source_box):'';
   const opt=(arr,v,labelFn)=>arr.map(x=>'<option value="'+esc(x)+'" '+(x===v?'selected':'')+'>'+esc(labelFn?labelFn(x):(x||'- 잔액없음 -'))+'</option>').join('');
   const stdOpt=()=>{ const man=LIVE_MASTER.filter(e=>e.route==='수기'), onl=LIVE_MASTER.filter(e=>e.route!=='수기');
     const o=e=>'<option value="'+esc(e.std)+'"'+(e.std===(pre.bank_std||'')?' selected':'')+'>'+esc(e.std)+'</option>';
@@ -1583,7 +1606,7 @@ function manRow(pre){
     '<td><select class="m-cu">'+opt(MAN_CURS,pre.currency||'KRW')+'</select></td>'+
     '<td><input class="m-li" inputmode="decimal" value="'+esc(formatMoneyInput(pre.limit))+'"></td>'+ 
     '<td><input class="m-nt" value="'+esc(pre.note)+'"></td>'+
-    '<td style="text-align:center"><button class="del">✕</button></td>';
+    '<td style="text-align:center;white-space:nowrap">'+'<button class="del">✕</button></td>';
   tr.querySelector('.del').onclick=()=>tr.remove();
   bindManualFormats(tr);
   return tr;
@@ -1600,6 +1623,7 @@ function collectManual(){
     currency:tr.querySelector('.m-cu').value, limit:tr.querySelector('.m-li').value,
     note:tr.querySelector('.m-nt').value,
     source_pdf:tr.dataset.sourcePdf||'', source_page:tr.dataset.sourcePage||'', ocr_confidence:tr.dataset.ocrConfidence||'', review_status:tr.dataset.reviewStatus||'',
+    source_box:tr.dataset.sourceBox?JSON.parse(tr.dataset.sourceBox):null,
     row_status:(tr.dataset.rowStatus===ST_READ&&amtKey(tr.querySelector('.m-amt').value)!==tr.dataset.readAmount)?ST_HUMAN:tr.dataset.rowStatus||'',
   };}).filter(r=>(r.company||'').trim()&&(r.bank_name||'').trim());
 }
@@ -1668,7 +1692,11 @@ if($('manBody')){
   };
 }
 
-window.__FINQ={tagTextRows,normAsof,parseWolboPdf,parseWolboGrid,sectionsFromTables,wolboPdfMatrix,processTables,extractPageTables,pageGeom,buildBCdata,autoFitSheet,autoFitWorkbook,get MASTER(){return LIVE_MASTER;},assignCodes,masterToArray,parseMasterWB,parseKftcWB,mergeKftc,setMaster,openEditor,collectEditor,nextManualCode,nextOnlineCode,makeManualItems,matchBankManual,integrate,parseWolbo,parseWolboSections,buildWolboRecon,buildWolboFullSheet,downloadWolbo,collectDroppedFiles,walkDroppedEntry,walkDroppedHandle,handleFiles,get STATE(){return STATE;}};
+const ROWVIEW={co:null,status:'',section:''};
+function srcClose(){}
+function renderRowView(){}
+
+window.__FINQ={tagTextRows,wordsFromText,normAsof,parseWolboPdf,parseWolboGrid,sectionsFromTables,wolboPdfMatrix,processTables,extractPageTables,pageGeom,buildBCdata,autoFitSheet,autoFitWorkbook,get MASTER(){return LIVE_MASTER;},assignCodes,masterToArray,parseMasterWB,parseKftcWB,mergeKftc,setMaster,openEditor,collectEditor,nextManualCode,nextOnlineCode,makeManualItems,matchBankManual,integrate,parseWolbo,parseWolboSections,buildWolboRecon,buildWolboFullSheet,downloadWolbo,collectDroppedFiles,walkDroppedEntry,walkDroppedHandle,handleFiles,get STATE(){return STATE;}};
 })();
 
 </script>
