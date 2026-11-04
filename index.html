@@ -203,7 +203,7 @@
 
   <div class="card hide" id="companyCard">
     <h2><span class="step">3</span> 회사별 회신 집계 (엑셀)</h2>
-    <div class="sub">회사별로 PDF 본문의 예적금·대출·지급보증·유가증권·보험·보증 등 섹션 데이터를 추출해 Summary(사업자번호×은행 KRW 합계)와 카테고리별 시트로 집계합니다. <b>수기 반영분도 함께 합산</b>됩니다.</div>
+    <div class="sub">회사별로 PDF 본문의 예적금·대출·지급보증·유가증권·보험·보증 등 섹션 데이터를 추출해 요약(사업자번호×금융기관 KRW 합계)·점검·기관별과 섹션 시트로 집계합니다. <b>수기 반영분도 함께 합산</b>됩니다.</div>
     <div class="grp" id="companyGrp"></div>
   </div>
 
@@ -220,7 +220,7 @@
 
   <div class="note" style="margin-top:6px">
     코드 규칙: <b>BC</b> + 카테고리(1=은행·2=증권·3=보험·4=보증) + 일련번호(2자리) + 사업자번호 접미사(a/b/c, 선택).
-    금액은 KRW 기준 합산되며 외화(USD 등)는 Summary의 별도 <span class="badge fx">외화</span> 블록으로 분리됩니다.
+    금액은 KRW 기준 합산되며 외화(USD 등)는 요약 시트의 별도 <span class="badge fx">외화</span> 블록으로 분리됩니다.
   </div>
   <div class="note" style="margin-top:6px">사용법·예시 파일: <a class="dl" href="https://github.com/henmoogi/bank-confirmation-tool" target="_blank" rel="noopener">GitHub 저장소</a> · 개인이 만든 비공식 도구이며 결과는 참고자료입니다 · MIT License</div>
 </div>
@@ -294,7 +294,7 @@ if (typeof window.pdfjsLib === 'undefined') {
   warn.style.cssText = 'position:sticky;top:0;z-index:9999;background:#b3261e;color:#fff;padding:12px 16px;font-weight:600';
   document.body.prepend(warn);
 }
-const APP_VERSION='공개판 2026.11.03';
+const APP_VERSION='공개판 2026.11.04';
 const MASTER = [{"code": "BC101", "std": "산업은행", "names": ["산업은행", "KDB산업은행", "한국산업은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC102", "std": "기업은행", "names": ["기업은행", "IBK기업은행", "중소기업은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC103", "std": "수협은행", "names": ["수협은행", "Sh수협은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC104", "std": "농협은행", "names": ["농협은행", "NH농협은행"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC105", "std": "한국수출입은행", "names": ["한국수출입은행", "수출입은행", "EXIM Bank", "KEXIM"], "major": "은행", "sub": "특수은행", "route": "온라인"}, {"code": "BC106", "std": "국민은행", "names": ["국민은행", "KB국민은행"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC107", "std": "우리은행", "names": ["우리은행", "WOORI BANK"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC108", "std": "KEB하나은행", "names": ["KEB하나은행", "하나은행", "KEB", "KEB Hana Bank"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC109", "std": "신한은행", "names": ["신한은행", "Shinhan Bank"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC110", "std": "SC제일은행", "names": ["SC제일은행", "스탠다드차타드은행", "SC은행"], "major": "은행", "sub": "시중은행", "route": "온라인"}, {"code": "BC111", "std": "카카오뱅크", "names": ["카카오뱅크", "kakaobank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC112", "std": "케이뱅크", "names": ["케이뱅크", "K뱅크", "Kbank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC113", "std": "토스뱅크", "names": ["토스뱅크", "Toss Bank"], "major": "은행", "sub": "인터넷은행", "route": "온라인"}, {"code": "BC114", "std": "씨티은행", "names": ["씨티은행", "한국씨티은행", "Citibank"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC115", "std": "HSBC", "names": ["HSBC", "에이치에스비씨", "HSBC은행"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC116", "std": "미즈호은행", "names": ["미즈호은행", "미즈호은행 서울지점"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC117", "std": "제이피모간체이스은행", "names": ["제이피모간체이스은행", "JP모간", "JPMorgan", "JPMorgan Chase"], "major": "은행", "sub": "외국계은행", "route": "온라인"}, {"code": "BC118", "std": "경남은행", "names": ["경남은행", "BNK경남은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC119", "std": "광주은행", "names": ["광주은행", "JB광주은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC120", "std": "부산은행", "names": ["부산은행", "BNK부산은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC121", "std": "아이엠뱅크(구 대구)", "names": ["아이엠뱅크(구 대구)", "대구은행", "iM뱅크", "DGB대구은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC122", "std": "전북은행", "names": ["전북은행", "JB전북은행"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC123", "std": "제주은행", "names": ["제주은행", "Jeju Bank"], "major": "은행", "sub": "지방은행", "route": "온라인"}, {"code": "BC201", "std": "미래에셋증권", "names": ["미래에셋증권", "Mirae Asset Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC202", "std": "NH투자증권", "names": ["NH투자증권", "엔에이치투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC203", "std": "한국투자증권", "names": ["한국투자증권", "한국투자증권주식회사"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC204", "std": "신한투자증권", "names": ["신한투자증권", "신한금융투자"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC205", "std": "KB증권", "names": ["KB증권", "케이비증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC206", "std": "삼성증권", "names": ["삼성증권", "Samsung Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC207", "std": "메리츠증권", "names": ["메리츠증권", "Meritz Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC208", "std": "키움증권", "names": ["키움증권", "Kiwoom Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC209", "std": "하나증권", "names": ["하나증권", "하나금융투자", "KEB하나금융투자"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC210", "std": "대신증권", "names": ["대신증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC211", "std": "한화투자증권", "names": ["한화투자증권", "Hanwha Investment"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC212", "std": "현대차증권", "names": ["현대차증권", "현대차증권주식회사", "HMC투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC213", "std": "교보증권", "names": ["교보증권", "Kyobo Securities"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC214", "std": "SK증권", "names": ["SK증권", "에스케이증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC215", "std": "아이엠증권", "names": ["아이엠증권", "iM증권", "하이투자증권"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC216", "std": "한국증권금융", "names": ["한국증권금융", "KSF"], "major": "증권", "sub": "증권", "route": "온라인"}, {"code": "BC217", "std": "BNK투자증권", "names": ["BNK투자증권", "BNK증권", "비엔케이투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC218", "std": "DB증권", "names": ["DB증권", "DB금융투자", "디비금융투자", "동부증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC219", "std": "IBK투자증권", "names": ["IBK투자증권", "아이비케이투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC220", "std": "LS증권", "names": ["LS증권", "이베스트투자증권", "이베스트증권", "엘에스증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC221", "std": "NH선물", "names": ["NH선물", "엔에이치선물"], "major": "증권", "sub": "선물", "route": "수기"}, {"code": "BC222", "std": "DS투자증권", "names": ["DS투자증권", "디에스투자증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC223", "std": "상상인증권", "names": ["상상인증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC224", "std": "신영증권", "names": ["신영증권", "Shinyoung"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC225", "std": "우리투자증권", "names": ["우리투자증권", "포스증권", "한국포스증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC226", "std": "유안타증권", "names": ["유안타증권", "Yuanta", "동양증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC227", "std": "유진투자증권", "names": ["유진투자증권", "유진증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC228", "std": "케이프투자증권", "names": ["케이프투자증권", "케이프증권"], "major": "증권", "sub": "증권", "route": "수기"}, {"code": "BC301", "std": "삼성생명보험", "names": ["삼성생명보험", "삼성생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC302", "std": "한화생명보험", "names": ["한화생명보험", "한화생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC303", "std": "교보생명보험", "names": ["교보생명보험", "교보생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC304", "std": "신한라이프생명보험", "names": ["신한라이프생명보험", "신한라이프", "신한생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC305", "std": "미래에셋생명", "names": ["미래에셋생명", "미래에셋생명보험"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC306", "std": "NH농협생명보험", "names": ["NH농협생명보험", "농협생명", "NH농협생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC307", "std": "흥국생명보험", "names": ["흥국생명보험", "흥국생명"], "major": "보험", "sub": "생명보험", "route": "온라인"}, {"code": "BC308", "std": "삼성화재해상보험", "names": ["삼성화재해상보험", "삼성화재", "Samsung Fire"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC309", "std": "현대해상화재보험", "names": ["현대해상화재보험", "현대해상", "Hyundai Marine"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC310", "std": "DB손해보험", "names": ["DB손해보험", "DB손보", "동부화재"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC311", "std": "KB손해보험", "names": ["KB손해보험", "KB손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC312", "std": "메리츠화재해상보험", "names": ["메리츠화재해상보험", "메리츠화재", "메리츠손해보험"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC313", "std": "한화손해보험", "names": ["한화손해보험", "한화손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC314", "std": "롯데손해보험", "names": ["롯데손해보험", "롯데손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC315", "std": "NH농협손해보험", "names": ["NH농협손해보험", "농협손보", "NH농협손보"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC316", "std": "에이아이지 손해보험", "names": ["에이아이지 손해보험", "AIG손해보험", "AIG"], "major": "보험", "sub": "손해보험", "route": "온라인"}, {"code": "BC317", "std": "KDB생명보험", "names": ["KDB생명보험", "KDB생명"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC318", "std": "메트라이프생명보험", "names": ["메트라이프생명보험", "메트라이프", "MetLife"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC319", "std": "에이스아메리칸화재해상보험", "names": ["에이스아메리칸화재해상보험", "에이스손해보험", "에이스화재", "처브", "Chubb"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC320", "std": "예별손해보험", "names": ["예별손해보험", "예별손보", "MG손해보험", "MG손보"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC321", "std": "푸본현대생명보험", "names": ["푸본현대생명보험", "푸본현대생명", "푸본생명", "Fubon"], "major": "보험", "sub": "생명보험", "route": "수기"}, {"code": "BC322", "std": "흥국화재해상보험", "names": ["흥국화재해상보험", "흥국화재"], "major": "보험", "sub": "손해보험", "route": "수기"}, {"code": "BC401", "std": "서울보증보험", "names": ["서울보증보험", "SGI서울보증", "SGI", "Seoul Guarantee Insurance"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC402", "std": "신용보증기금", "names": ["신용보증기금", "KODIT"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC403", "std": "기술보증기금", "names": ["기술보증기금", "KIBO", "Kibo"], "major": "보증", "sub": "보증", "route": "온라인"}, {"code": "BC150", "std": "우체국", "names": ["우체국", "우체국", "우체국예금", "중앙우체국"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC151", "std": "단위농협", "names": ["단위농협", "지역농협", "단위농협", "농협조합", "지역농축협", "농협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC152", "std": "새마을금고", "names": ["새마을금고", "MG새마을금고", "새마을금고", "새마을"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC153", "std": "신협", "names": ["신협", "신용협동조합", "단위신협", "신협중앙회", "신협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC154", "std": "산림조합", "names": ["산림조합", "산림조합중앙회", "단위산림조합", "산림조합"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC155", "std": "수산업협동조합", "names": ["수산업협동조합", "수산업협동조합중앙회", "수산업협동조합", "단위수협", "수협"], "major": "은행", "sub": "특수은행", "route": "수기"}, {"code": "BC156", "std": "외국계 비참여은행", "names": ["외국계 비참여은행", "외국계기타", "외국은행", "외국계비참여"], "major": "은행", "sub": "외국계은행", "route": "수기"}, {"code": "BC157", "std": "여신전문금융(캐피탈 등)", "names": ["여신전문금융(캐피탈 등)", "캐피탈", "캐피털", "커머셜", "파이낸셜", "오토리스"], "major": "은행", "sub": "여신전문", "route": "수기"}, {"code": "BC158", "std": "공제조합", "names": ["공제조합", "공제조합"], "major": "보증", "sub": "공제조합", "route": "수기"}, {"code": "BC159", "std": "정책금융 공단", "names": ["정책금융 공단", "중소벤처기업진흥공단", "중소기업진흥공단", "중진공", "소상공인시장진흥공단", "진흥공단"], "major": "은행", "sub": "정책금융", "route": "수기"}]
 ;
 let LIVE_MASTER = MASTER.map(e=>Object.assign({},e,{names:e.names.slice()}));
@@ -411,7 +411,7 @@ function extractPageTables(rects,lines,words){
   return tables.map(t=>{Object.defineProperty(t.matrix,'_bbox',{value:{top:t.top,left:t.left,bottom:t.bottom},enumerable:false});return t.matrix;});
 }
 
-function cleanAmount(s){if(s===null||s===undefined||s==='')return[null,null];s=String(s).trim();let cur=null;let m=s.match(/(KRW|USD|EUR|JPY|CNY|WON)/i);if(m){cur=m[1].toUpperCase();if(cur==='WON')cur='KRW';}let c=s.replace(/\([^)]*\)/g,'').replace(/(KRW|USD|EUR|JPY|CNY|WON)/ig,'').replace(/,/g,'').replace(/\s/g,'').trim();let amt=null;if(c&&c!=='-'&&/^-?\d+(?:\.\d+)?$/.test(c)){const f=Number(c);amt=Number.isFinite(f)?f:null;}return[cur,amt];}
+function cleanAmount(s){if(s===null||s===undefined||s==='')return[null,null];s=String(s).trim();let cur=null;let m=s.match(/(KRW|USD|EUR|JPY|CNY|WON)/i);if(m){cur=m[1].toUpperCase();if(cur==='WON')cur='KRW';}let c=s.replace(/\([^)]*\)/g,'').replace(/(KRW|USD|EUR|JPY|CNY|WON)/ig,'').replace(/,/g,'').replace(/\s/g,'').trim();let amt=null;if(c&&c!=='-'&&/^-?(?:\d+(?:\.\d*)?|\.\d+)$/.test(c)){const f=Number(c);amt=Number.isFinite(f)?f:null;}return[cur,amt];}
 function classifyDeposit(name){if(!name)return'기타';const n=String(name).replace(/ /g,'').toUpperCase();const has=a=>a.some(k=>n.includes(k));if(has(['외화','USD','EUR','JPY','CNY','GBP']))return'외화예금';if(has(['확정급여형','확정기여형','퇴직연금','퇴직신탁','DB)','DC)']))return'퇴직연금';if(has(['정기예금','거치식','회전형','중금채','예금증서','CD']))return'정기예금';if(has(['보통','기업자유','수시','당좌','자유예금','ACCOUNT']))return'보통예금';if(n.includes('통장'))return'보통예금';return'기타';}
 function parseRate(s){if(s===null||s===undefined)return null;s=String(s).trim().replace(/%$/,'').trim();if(!s||s==='-')return null;const f=parseFloat(s);return isNaN(f)?null:f;}
 function parseYMD(s){if(s===null||s===undefined)return null;s=String(s).trim();if(s.length!==8||!/^\d{8}$/.test(s)||s==='00000000')return null;const mo=+s.slice(4,6),d=+s.slice(6,8);if(mo<1||mo>12||d<1||d>31)return null;return s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8);}
@@ -424,7 +424,7 @@ function detectTableType(t){if(!t||!t[0])return null;const header=t[0].map(c=>St
   if(H('보험의 종류')&&H('증권번호')&&(H('부보금액')||H('연간보험료')))return'insurance';
   if(H('금융상품의 종류')&&H('계좌번호')&&H('연이자율'))return'bank_deposits';
   if(H('계좌번호')&&H('금융상품의 종류')&&H('예수금'))return'securities_account';
-  if(H('종목명')&&H('수량'))return'securities_detail';
+  if(H('종목명')&&H('수량')&&!H('계약의 종류'))return'securities_detail';
   if(H('대출')&&(H('약정한도액')||H('대출금액')||(t.length>1&&t[1].map(c=>String(c||'')).join(' ').includes('약정한도액'))))return'bank_loans';
   if(H('내용')&&H('한도액')&&H('실행금액')&&(H('지급보증수수료')||H('담보지급보증')))return'bank_guarantees';
   if(H('계약의 종류')&&(H('계약일')||H('매수')))return'derivatives';
@@ -450,7 +450,7 @@ const GENERIC={derivatives:'파생상품',joint_guarantee:'연대보증',collate
 
 function noSpace(s){return String(s||'').replace(/\s+/g,'');}
 const CO_SUF=[/\s*주식회사\s*$/,/\s*\(주\)\s*$/,/\s*㈜\s*$/], CO_PRE=[/^\s*주식회사\s*/,/^\s*\(주\)\s*/,/^\s*㈜\s*/];
-function cleanCompany(name){if(!name)return null;let s=String(name).trim();s=s.replace(/\([^)]*\)/g,'').replace(/（[^）]*）/g,'');s=s.replace(/[）)（(・·.\-_=]{2,}/g,'');for(const p of CO_SUF.concat(CO_PRE))s=s.replace(p,'');s=s.replace(/\s+/g,'');return s||null;}
+function cleanCompany(name){if(!name)return null;let s=String(name).trim();s=s.replace(/[(（][^)）]*[)）]/g,'');s=s.replace(/[）)（(・·.\-_=]{2,}/g,'');for(const p of CO_SUF.concat(CO_PRE))s=s.replace(p,'');s=s.replace(/\s+/g,'').replace(/^[()（）]+|[()（）]+$/g,'');return s||null;}
 function extractCompany(text){if(!text)return null;const m=text.match(/조회\s*대상\s*회사\s*[:：]\s*([^\n\r]+)/);if(!m)return null;let raw=m[1];raw=raw.split(/사[^가-힣\d]*업[^가-힣\d]*자[^가-힣\d]*등|조회[^가-힣\d]*기준/)[0];return cleanCompany(raw);}
 const CAT_SIGNALS={'은행':[[10,[/은행\s*거래의?\s*(잔액|조회|확인)/]],[5,[/금융상품의\s*종류/,/약정한도액/,/담보지급보증/,/지급보증수수료/,/대출금현황/]],[2,[/예적금/,/당좌거래/,/어음.{0,4}수표/]]],'증권':[[10,[/유가증권의?\s*(잔액|조회|보유)/,/유가증권\s*등\s*금융상품/]],[5,[/종목명.{0,20}수량/,/종목명.{0,20}액면/,/위탁계좌/,/예탁자산/,/예수금.{0,10}대용금/,/신용설정/,/미수금액/]],[2,[/유가증권/,/위탁자/]]],'보험':[[10,[/보험\s*거래의?\s*(잔액|조회|확인)/,/보험계약의?\s*조회/]],[5,[/보험의\s*종류/,/부보금액/,/연간보험료/,/책임준비금/,/해약환급금/,/보험증권번호/]],[2,[/보험계약/,/납입보험료/]]],'보증':[[10,[/보증\s*거래의?\s*(잔액|조회|확인)/,/보증보험\s*거래/]],[5,[/보증상대처/,/보증한도/,/보증서\s*발급내역/,/증권번호.{0,10}보증/]],[2,[/보증잔액/]]]};
 function detectFormCategory(text){if(!text)return[null,'low'];const sc={};for(const c in CAT_SIGNALS)sc[c]=0;for(const cat in CAT_SIGNALS)for(const [w,pats] of CAT_SIGNALS[cat])for(const p of pats)if(p.test(text))sc[cat]+=w;if(!Object.values(sc).some(v=>v>0))return[null,'low'];const so=Object.entries(sc).sort((a,b)=>b[1]-a[1]);const tc=so[0][0],ts=so[0][1],ss=so[1]?so[1][1]:0;if(ts===ss)return[null,'low'];const mg=ts-ss;let cf;if(ts>=10&&mg>=5)cf='high';else if(ts>=5&&mg>=3)cf='medium';else cf='low';return[tc,cf];}
@@ -459,7 +459,11 @@ function matchBank(text,ents,cat,conf){if(!text)return null;const ft=text.length
 const RENAMED=/^(?:(.+?)\s+)?(BC\d+)([a-z])?\s+(.+)$/;
 function parseExisting(fn){const b=fn.replace(/\.[^.]+$/,'');const m=b.match(RENAMED);if(m)return{company:(m[1]||'').trim()||null,code:m[2],suffix:m[3],bank:m[4].trim()};return null;}
 
-function processTables(fname, tables, orderedFull){
+const ST_OK='텍스트 일치',ST_READ='판독',ST_HUMAN='사람 확인',ST_CHECK='원본 확인',ST_MANUAL='수기',ST_NOAMT='금액 없음',ST_ORDER=[ST_OK,ST_READ,ST_HUMAN,ST_CHECK,ST_MANUAL,ST_NOAMT];
+function amountOnPage(n,text){const plain=text.replace(/,/g,'');if(typeof n==='string')return new RegExp('(?<![\\d.])'+n+'(?!\\d)').test(plain);const esc=x=>x.replace(/[.,]/g,'\\$&'),whole=Number.isInteger(n);const forms=whole?[String(n)]:[String(n),n.toFixed(2)];if(forms.some(f=>new RegExp('(?<![\\d.])'+esc(f)+'(?!\\d)').test(plain)))return true;const p=(whole?String(n):n.toFixed(2)).split('.');const s=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',')+(p[1]?'.'+p[1]:'');for(let i=1;i<s.length;i++){if(new RegExp('(?<![\\d,.])'+esc(s.slice(0,i))+'(?![\\d,])[\\s\\S]{0,300}?(?<![\\d,.])'+esc(s.slice(i))+'(?![\\d,])').test(text))return true;}return false;}
+function tagTextRows(rows,page,pageText){const text=String(pageText||'');for(const r of rows){r.source_page=page||'';const vals=[];for(const k of Object.keys(r)){if(AMOUNT_COLS.has(k)||(/금액|한도|수량|단가|잔고|수수료|제세금|이자|평가|좌수|보험료|보증료|원리금/.test(k)&&!/번호/.test(k))){for(const part of (typeof r[k]==='string'?r[k].split(/\s+/):[r[k]])){const n=cleanAmount(part)[1];if(n){const t=typeof part==='string'?part.replace(/,/g,''):'';vals.push(/^\d+$/.test(t)?t:Math.abs(n));}}}}r.status=!vals.length?ST_NOAMT:vals.every(n=>amountOnPage(n,text))?ST_OK:ST_CHECK;}}
+function statusLine(rows){const c={};rows.forEach(r=>{if(r.status)c[r.status]=(c[r.status]||0)+1;});return {text:Object.keys(c).length?'행 상태: '+ST_ORDER.filter(k=>c[k]).map(k=>k+' '+c[k]).join(' · '):'',check:c[ST_CHECK]||0};}
+function processTables(fname, tables, orderedFull, pageTexts){
   const existing=parseExisting(fname);
   const biz=(orderedFull.match(/\d{3}-\d{2}-\d{5}/)||[])[0]||null;
   const company=extractCompany(orderedFull)||(existing&&existing.company)||null;
@@ -470,7 +474,7 @@ function processTables(fname, tables, orderedFull){
   if(bank&&cat&&(conf==='high'||conf==='medium')&&bank.major!==cat)catMismatch=true;
   const ctx={pdf_file:fname,code:bank?bank.code:(existing&&existing.code)||'',suffix:existing&&existing.suffix||'',bank_name:bank?bank.std:(existing&&existing.bank)||'',major_category:bank?bank.major:((existing&&existing.code&&CODE_INFO[existing.code]&&CODE_INFO[existing.code].major)||cat||''),sub_category:bank?bank.sub:'',biz_num:biz};
   const rows=[];
-  for(const tbl of tables){const tt=detectTableType(tbl);if(!tt)continue;if(DISPATCH[tt])rows.push(...DISPATCH[tt](tbl,ctx));else if(GENERIC[tt])rows.push(...pGen(tbl,ctx,GENERIC[tt]));}
+  for(const tbl of tables){const tt=detectTableType(tbl);if(!tt)continue;const got=DISPATCH[tt]?DISPATCH[tt](tbl,ctx):GENERIC[tt]?pGen(tbl,ctx,GENERIC[tt]):[];if(pageTexts)tagTextRows(got,tbl._page,pageTexts[tbl._page-1]);rows.push(...got);}
   const nonError=rows.length;
   return {pdf_name:fname,existing,biz_num:biz,bank,company,method,form_category:cat,form_confidence:conf,cat_mismatch:catMismatch,rows,extracted_text:!!orderedFull, hasData:nonError>0, fullText:orderedFull};
 }
@@ -563,7 +567,7 @@ function guessScanFilename(filename){
 }
 function buildOcrQueueWB(items){
   const pending=(items||[]).filter(isOcrPending);
-  const rows=pending.map(it=>{const g=guessScanFilename(it.pdf_name);return [it.pdf_name,g.company,g.bank_std,g.bank_actual,'','','','','','','KRW','','',1,'','입력대기'];});
+  const rows=pending.map(it=>{const g=guessScanFilename(it.pdf_name);return [it.pdf_name,g.company,g.bank_std,g.bank_actual,'','','','','','','KRW','','','','','입력대기'];});
   const wb=X().utils.book_new();
   const guide=[
     ['스캔본 엑셀 입력 목록'],
@@ -602,183 +606,172 @@ function cellFor(col,val){
 }
 function normCur(c){if(c===null||c===undefined)return'KRW';const s=String(c).trim().toUpperCase();if(s===''||s==='WON'||s==='KRW')return'KRW';return s;}
 
+const BC_LEFT=[['bank_name','금융기관'],['code_full','BC코드'],['biz_num','사업자번호']];
+const BC_RIGHT=[['status','상태'],['source_page','쪽'],['pdf_file','원본 PDF'],['amount_raw','금액 원문']];
+const BC_SECTIONS={
+  '예적금':[['product_type','상품유형'],['product','금융상품의 종류'],['account','계좌번호'],['currency','통화'],['amount','금액'],['rate','연이자율'],['last_pay_date','최종이자지급일'],['maturity_date','만기일'],['restriction','인출제한 등']],
+  '대출':[['product','대출 종류'],['limit_currency','한도 통화'],['limit_amount','약정한도액'],['currency','통화'],['amount','대출금액'],['loan_date','대출일'],['maturity_date','최종만기일'],['rate','연이자율'],['last_pay_date','최종이자지급일'],['repay_method','상환방법'],['collateral','담보·보증 및 관련약정']],
+  '지급보증':[['product','내용'],['limit_currency','한도 통화'],['limit_amount','한도액'],['currency','통화'],['amount','실행금액'],['fee_rate','수수료율'],['period','기간'],['collateral','담보·지급보증']],
+  '유가증권_요약':[['account','계좌번호'],['product','금융상품의 종류'],['currency','통화'],['amount','금융상품금액'],['cash','예수금'],['margin','신용설정보증금'],['receivable','미수금액'],['restriction','담보제공·처분제한 등']],
+  '유가증권_상세':[['account','계좌번호'],['product','종목명'],['quantity','수량'],['face_value','액면금액'],['base_price','기준가'],['eval_price','평가액'],['maturity_date','만기일'],['collateral','담보제공내역'],['note','비고']],
+  '보험':[['product','보험의 종류'],['policy_no','증권번호'],['currency','통화'],['amount','부보금액'],['premium_amt','연간보험료(보장성·사업비)'],['extra_amt','연간보험료(그 이외)'],['period_start','부보 시작'],['period_end','부보 종료'],['accumulated','누적적립금'],['surrender_value','해약환급금'],['rate','연이자율'],['rights_restriction','권리제한'],['note','비고']],
+  '보증':[['product','보증(보험)의 종류'],['policy_no','증권번호'],['target','보증상대처'],['currency','통화'],['amount','보증금액'],['remaining','보증잔액'],['annual_premium','연간보증료'],['period','보증기간'],['note','비고']],
+  '담보자산':[['type','구분'],['content','담보·보증의 내용'],['owner','소유자(제공자)'],['appraisal_currency','감정 통화'],['appraisal_amount','감정금액'],['setting_currency','설정 통화'],['setting_amount','설정금액'],['rank','설정순위'],['prior_marker','선순위 구분'],['prior_setting_currency','선순위 통화'],['prior_setting_amount','선순위설정금액']]
+};
+const BC_SUM_ORDER=['예적금','대출','지급보증','유가증권_요약','보험','보증'];
+const BC_SUM_HEAD={'예적금':'금액','대출':'대출금액','지급보증':'실행금액','유가증권_요약':'금융상품금액','보험':'부보금액','보증':'보증금액'};
+const BC_MAJOR={'1':'은행·기타 금융기관','2':'증권','3':'보험','4':'보증'};
+const BC_NOT_CONTENT=new Set(['currency','limit_currency','appraisal_currency','setting_currency','prior_setting_currency','product_type']);
+const BC_META=new Set(['section','pdf_file','code','suffix','code_full','bank_name','major_category','sub_category','biz_num','source_page','status','_manual','_ocr','ocr_confidence','review_status']);
+const bcCmp=(a,b)=>a<b?-1:a>b?1:0;
+const bcHasAmt=r=>r.status!==ST_NOAMT;
+function bcRowBlank(r){const cols=BC_SECTIONS[r.section];return !!cols&&!cols.some(([k])=>!BC_NOT_CONTENT.has(k)&&r[k]!==null&&r[k]!==undefined&&r[k]!=='');}
+function bcIsPlaceholder(r){if(BC_SECTIONS[r.section])return false;for(const k of Object.keys(r)){if(BC_META.has(k)||k.startsWith('col_'))continue;if(!['','-','해당 거래 없음','해당사항 없음'].includes(String(r[k]??'').trim()))return false;}return true;}
+function bcPut(ws,r,c,v,s,z,t){const o={t:t||(typeof v==='number'?'n':'s'),v:(v===null||v===undefined)?'':v};if(z)o.z=z;if(s)o.s=s;ws[X().utils.encode_cell({r,c})]=o;}
+function bcCell(ws,r,c,key,val,s){if(key==='amount_raw'){bcPut(ws,r,c,val===null||val===undefined?'':String(val),s);return;}if(DATE_COLS.has(key)&&/^(00000000|00010101)$/.test(String(val??''))){bcPut(ws,r,c,'',s);return;}if(AMOUNT_COLS.has(key)&&typeof val==='string'){const n=cleanAmount(val)[1];if(n!==null){bcPut(ws,r,c,n,s,numZ(n));return;}}const cf=cellFor(key,val);let z=cf.z;if(cf.t==='n'&&AMOUNT_COLS.has(key)&&typeof cf.v==='number')z=numZ(cf.v);bcPut(ws,r,c,cf.v,s,z,cf.t);}
+function bcEnd(ws,lastRow,lastCol,merges){ws['!ref']=X().utils.encode_range({s:{r:0,c:0},e:{r:Math.max(lastRow,0),c:Math.max(lastCol,0)}});if(merges&&merges.length)ws['!merges']=merges;}
+const BC_HEAD_S=()=>styl({fill:HDRC,bold:true,white:true,h:'center',wrap:true});
+function bcHeadRow(ws,r,heads){heads.forEach((h,c)=>bcPut(ws,r,c,h,BC_HEAD_S()));}
+function bcRowStyle(r,key){if(key==='status'&&r.status===ST_CHECK)return styl({fill:'FFC000'});return r.status===ST_NOAMT?styl({color:'808080'}):styl({});}
 function buildBCdata(companyName, items){
-  const allRows=items.flatMap(i=>i.rows);
-  const wb=X().utils.book_new();
-  const sectionsOrder=['예적금','대출','지급보증','유가증권_요약','보험','보증'];
-  const bizSet=[...new Set(allRows.filter(r=>r.biz_num&&r.amount!=null).map(r=>r.biz_num))].sort();
-  const bankSet=[...new Set(allRows.filter(r=>r.bank_name).map(r=>r.bank_name))].sort();
-  const NA='(미상)';
-  const hasNA=allRows.some(r=>sectionsOrder.includes(r.section)&&r.amount!=null&&normCur(r.currency)==='KRW'&&!r.biz_num);
-  const bizCols=hasNA?bizSet.concat([NA]):bizSet;
-  const summ={}, fx=[];
-  for(const r of allRows){if(!sectionsOrder.includes(r.section))continue;const amt=r.amount;if(amt==null)continue;const cur=normCur(r.currency);if(cur==='KRW'){const bk=r.bank_name||'',bz=r.biz_num||NA,se=r.section;summ[se]=summ[se]||{};summ[se][bk]=summ[se][bk]||{};summ[se][bk][bz]=(summ[se][bk][bz]||0)+amt;}else{fx.push({currency:cur,section:r.section,biz_num:r.biz_num||'',bank_name:r.bank_name||'',product:r.product||r.product_type||'',amount:amt,amount_raw:r.amount_raw||'',pdf_file:r.pdf_file||''});}}
-  const S=[]; let ri=0; const secBlocks=[]; let fxHdrR=-1,fxCurHdrR=-1;
-  S[ri++]=['Section x Bank x Biz# 합계 (KRW)'];
-  if(fx.length)S[ri++]=['외화 거래 '+fx.length+'건 → 아래 [외화 거래] 블록 참조 (감사 시 환산 별도 필요)']; else S[ri++]=[];
-  for(const se of sectionsOrder){ if(!summ[se])continue;
-    const labelR=ri; S[ri++]=['['+se+']'];
-    const hdrR=ri; const hdr=['은행 / 사업자번호',...bizCols,'합계']; S[ri++]=hdr;
-    const dataStart=ri; const bankTot={}, bizTot={}; let grand=0;
-    for(const bk of bankSet){ if(!summ[se][bk])continue; const row=[bk]; let bt=0;
-      for(const bz of bizCols){const v=summ[se][bk][bz]||0;row.push(v||'');if(v){bt+=v;bizTot[bz]=(bizTot[bz]||0)+v;grand+=v;}}
-      row.push(bt||0); bankTot[bk]=bt; S[ri++]=row;
+  items.forEach(it=>(it.rows||[]).forEach(r=>{r.code_full=it.final_code||((r.code||'')+(r.suffix||''));}));
+  const rows=items.flatMap(i=>i.rows||[]).filter(r=>!bcRowBlank(r));
+  const wb=X().utils.book_new(), freezeMap={};
+  bcSummarySheet(wb,companyName,rows.filter(r=>!bcIsPlaceholder(r)),freezeMap);
+  bcCheckSheet(wb,items,rows,freezeMap);
+  bcInstitutionSheet(wb,items,rows,freezeMap);
+  Object.keys(BC_SECTIONS).forEach(n=>bcSectionSheet(wb,n,rows,freezeMap));
+  return {wb,freezeMap};
+}
+function bcSectionSheet(wb,name,rows,freezeMap){
+  const data=rows.filter(r=>r.section===name); if(!data.length)return;
+  data.sort((a,b)=>(bcHasAmt(a)?0:1)-(bcHasAmt(b)?0:1)||bcCmp(a.code_full,b.code_full)||bcCmp(String(a.pdf_file),String(b.pdf_file))||(+a.source_page||0)-(+b.source_page||0));
+  let cols=BC_LEFT.concat(BC_SECTIONS[name],BC_RIGHT);
+  if(!data.some(r=>'amount_raw' in r))cols=cols.filter(c=>c[0]!=='amount_raw');
+  const ws={}; bcHeadRow(ws,0,cols.map(c=>c[1]));
+  data.forEach((r,i)=>cols.forEach(([k],c)=>bcCell(ws,i+1,c,k,r[k],bcRowStyle(r,k))));
+  bcEnd(ws,data.length,cols.length-1);
+  ws['!autofilter']={ref:X().utils.encode_range({s:{r:0,c:0},e:{r:data.length,c:cols.length-1}})};
+  X().utils.book_append_sheet(wb,ws,name); freezeMap[name]={xSplit:3,ySplit:1};
+}
+function bcSummarySheet(wb,company,rows,freezeMap){
+  const biz=[...new Set(rows.filter(r=>r.biz_num&&r.amount!=null).map(r=>r.biz_num))].sort();
+  const tab={},fx=[];
+  for(const r of rows){if(!BC_SUM_ORDER.includes(r.section)||r.amount==null)continue;if(normCur(r.currency)==='KRW'){const se=(tab[r.section]=tab[r.section]||{}),bk=(se[r.bank_name||'']=se[r.bank_name||'']||{}),bz=r.biz_num||'(미상)';bk[bz]=(bk[bz]||0)+r.amount;}else fx.push(r);}
+  if(Object.values(tab).some(se=>Object.values(se).some(bk=>'(미상)' in bk)))biz.push('(미상)');
+  const ws={},merges=[]; let maxC=7;
+  const line=(r,t,f)=>{bcPut(ws,r,0,t,f);merges.push({s:{r,c:0},e:{r,c:7}});};
+  line(0,'금융기관조회 회신 집계 - '+company+' (원화 합계, 금융기관 × 사업자번호)',fnt({bold:true}));
+  const st=statusLine(rows); line(1,st.text,st.check?fnt({bold:true,color:{rgb:'C00000'}}):fnt({}));
+  if(fx.length)line(2,'외화 '+fx.length+'건은 맨 아래 [외화] 표 참조(환산 전 금액)',fnt({italic:true,color:{rgb:'C00000'}}));
+  let n=4; const single=biz.length<=1;
+  const NUM='#,##0';
+  for(const sec of BC_SUM_ORDER){ if(!tab[sec])continue;
+    bcPut(ws,n,0,'['+sec+']',fnt({bold:true,color:{rgb:HDRC}})); n++;
+    const heads=['금융기관'].concat(single?[BC_SUM_HEAD[sec]]:biz.concat(['합계'])); bcHeadRow(ws,n,heads); n++; maxC=Math.max(maxC,heads.length-1);
+    const tot={};
+    for(const bank of Object.keys(tab[sec]).sort(bcCmp)){
+      bcPut(ws,n,0,bank,styl({})); let lineSum=0;
+      biz.forEach((b,i)=>{const v=tab[sec][bank][b]||0;if(v||single)bcPut(ws,n,i+1,v,styl({}),NUM);else bcPut(ws,n,i+1,'',styl({}));lineSum+=v;tot[b]=(tot[b]||0)+v;});
+      if(!single)bcPut(ws,n,biz.length+1,lineSum,styl({bold:true}),NUM);
+      n++;
     }
-    const dataEnd=ri-1; const totalR=ri; const tr=['합계']; for(const bz of bizCols)tr.push(bizTot[bz]||0); tr.push(grand); S[ri++]=tr; ri++;
-    secBlocks.push({labelR,hdrR,dataStart,dataEnd,totalR,ncol:hdr.length});
+    const totS=styl({fill:'FFF2CC',bold:true});
+    bcPut(ws,n,0,'합계',totS); biz.forEach((b,i)=>bcPut(ws,n,i+1,tot[b]||0,totS,NUM));
+    if(!single)bcPut(ws,n,biz.length+1,Object.values(tot).reduce((a,b)=>a+b,0),totS,NUM);
+    n+=2;
   }
   if(fx.length){
-    ri++; S[ri++]=['[외화 거래 (FX)] - 환산 없이 원본 통화/금액 표시. 감사 시 환율 별도 적용 필요.'];
-    fx.sort((a,b)=>(a.currency+a.section+a.bank_name+a.biz_num).localeCompare(b.currency+b.section+b.bank_name+b.biz_num));
-    fxHdrR=ri; S[ri++]=['통화','섹션','사업자번호','은행','상품/내용','금액','원본','PDF'];
-    for(const r of fx)S[ri++]=[r.currency,r.section,r.biz_num,r.bank_name,r.product,r.amount,r.amount_raw,r.pdf_file];
-    ri++; S[ri++]=['[통화별 합계]'];
-    const ct={},cc={}; fx.forEach(r=>{ct[r.currency]=(ct[r.currency]||0)+r.amount;cc[r.currency]=(cc[r.currency]||0)+1;});
-    Object.keys(ct).sort().forEach(cu=>{S[ri++]=[cu,'','','','건수: '+cc[cu],ct[cu],'',''];});
+    bcPut(ws,n,0,'[외화] 환산 전 금액, 감사 시 환율 별도 적용',fnt({bold:true,color:{rgb:'C00000'}})); n++;
+    bcHeadRow(ws,n,['통화','구분','사업자번호','금융기관','상품/내용','금액','쪽','원본 PDF']); n++;
+    fx.sort((a,b)=>bcCmp(normCur(a.currency),normCur(b.currency))||bcCmp(a.section,b.section)||bcCmp(a.bank_name||'',b.bank_name||''));
+    for(const r of fx){[normCur(r.currency),r.section,r.biz_num,r.bank_name,r.product||r.product_type,r.amount,r.source_page,r.pdf_file].forEach((v,c)=>bcPut(ws,n,c,v,styl({}),c===5?'#,##0.00':undefined));n++;}
+    n++; bcPut(ws,n,0,'[통화별 합계]',fnt({bold:true})); n++;
+    const ct={},cc={}; fx.forEach(r=>{const k=normCur(r.currency);ct[k]=(ct[k]||0)+r.amount;cc[k]=(cc[k]||0)+1;});
+    const s=styl({fill:'FFE082'});
+    Object.keys(ct).sort().forEach(k=>{[k,'','','',cc[k]+'건',ct[k]].forEach((v,c)=>bcPut(ws,n,c,v,s,c===5?'#,##0.00':undefined));n++;});
   }
-  const wsS=X().utils.aoa_to_sheet(S);
-  Object.keys(wsS).forEach(addr=>{if(addr[0]==='!')return;const c=wsS[addr];if(typeof c.v==='number'){c.t='n';c.z='#,##0';}});
-  wsS['!cols']=[{wch:22},...bizCols.map(()=>({wch:15})),{wch:15}];
-  setS(wsS,0,0,fnt({bold:true}));
-  if(fx.length)setS(wsS,1,0,fnt({italic:true,color:{rgb:'C00000'}}));
-  secBlocks.forEach(b=>{
-    setS(wsS,b.labelR,0,fnt({bold:true,color:{rgb:HDRC}}));
-    rowS(wsS,b.hdrR,0,b.ncol-1,styl({fill:HDRC,bold:true,white:true,h:'center'}));
-    for(let r=b.dataStart;r<=b.dataEnd;r++)rowS(wsS,r,0,b.ncol-1,styl({}));
-    rowS(wsS,b.totalR,0,b.ncol-1,styl({fill:'FFF2CC',bold:true}));
-  });
-  if(fxHdrR>=0)rowS(wsS,fxHdrR,0,7,styl({fill:HDRC,bold:true,white:true,h:'center'}));
-  X().utils.book_append_sheet(wb,wsS,'Summary');
-  const freezeMap={Summary:{xSplit:0,ySplit:0}};
-
-  const common=['code','suffix','bank_name','major_category','biz_num','pdf_file'];
-  const secDefs=[
-    ['예적금',allRows.filter(r=>r.section==='예적금'),common.concat(['product_type','product','account','currency','amount','amount_raw','rate','last_pay_date','maturity_date','restriction'])],
-    ['대출',allRows.filter(r=>r.section==='대출'),common.concat(['product','limit_currency','limit_amount','currency','amount','amount_raw','loan_date','maturity_date','rate','last_pay_date','repay_method','collateral'])],
-    ['지급보증',allRows.filter(r=>r.section==='지급보증'),common.concat(['product','limit_currency','limit_amount','currency','amount','amount_raw','fee_rate','period','collateral'])],
-    ['유가증권_요약',allRows.filter(r=>r.section==='유가증권_요약'),common.concat(['product','account','currency','amount','amount_raw','cash','margin','receivable','restriction'])],
-    ['유가증권_상세',allRows.filter(r=>r.section==='유가증권_상세'),common.concat(['product','account','quantity','face_value','base_price','eval_price','maturity_date','collateral','note'])],
-    ['보험',allRows.filter(r=>r.section==='보험'),common.concat(['product','policy_no','currency','amount','premium_amt','extra_amt','period_start','period_end','accumulated','surrender_value','rate','rights_restriction','note'])],
-    ['보증',allRows.filter(r=>r.section==='보증'),common.concat(['product','policy_no','target','currency','amount','remaining','annual_premium','period','note'])],
-    ['담보자산',allRows.filter(r=>r.section==='담보자산'),common.concat(['type','content','owner','appraisal_currency','appraisal_amount','setting_currency','setting_amount','rank','prior_marker','prior_setting_currency','prior_setting_amount'])],
-  ];
-  for(const [name,rows,cols] of secDefs){
-    const ws=X().utils.aoa_to_sheet([cols]);
-    rows.forEach((r,ridx)=>{cols.forEach((col,cidx)=>{const cf=cellFor(col,r[col]!==undefined?r[col]:'');const addr=X().utils.encode_cell({r:ridx+1,c:cidx});const cell={t:cf.t,v:cf.v};if(cf.z)cell.z=cf.z;if(cf.v===''){cell.t='s';}ws[addr]=cell;});});
-    const range=X().utils.decode_range(ws['!ref']); range.e.r=Math.max(range.e.r,rows.length); range.e.c=cols.length-1; ws['!ref']=X().utils.encode_range(range);
-    ws['!cols']=cols.map(c=>({wch:Math.min(Math.max(c.length+2,8),30)}));
-    rowS(ws,0,0,cols.length-1,styl({fill:HDRC,bold:true,white:true,h:'center',wrap:true}));
-    X().utils.book_append_sheet(wb,ws,name); freezeMap[name]={xSplit:0,ySplit:1};
-  }
-  buildReviewSheet(wb, items, freezeMap);
-  buildConsistencySheet(wb, items, freezeMap);
-  buildCategorySheet(wb,'은행_집계',new Set(['1']),allRows,freezeMap);
-  buildCategorySheet(wb,'증권_집계',new Set(['2']),allRows,freezeMap);
-  buildCategorySheet(wb,'보험_집계',new Set(['3']),allRows,freezeMap);
-  buildCategorySheet(wb,'보증_집계',new Set(['4']),allRows,freezeMap);
-  return {wb, freezeMap};
+  bcEnd(ws,n,maxC,merges);
+  X().utils.book_append_sheet(wb,ws,'요약'); freezeMap['요약']={xSplit:0,ySplit:4};
 }
-
-function buildReviewSheet(wb, items, freezeMap){
-  const rev=[];
+function bcConsistency(items){
+  const out=[];
   for(const it of items){
-    if(it.rows.length>0) continue;
-    const t=it.fullText||''; const noTrans=(t.match(/해당\s*거래\s*없음|해당\s*사항\s*없음/g)||[]).length;
-    let reason; if(noTrans>0&&t.length>0)reason='해당 거래 없음 (회신 정상, 잔액 없음)';
-    else if(t.length>0)reason='표 추출 실패 가능성 (텍스트는 있음)'; else reason='텍스트 추출 실패 (이미지 PDF?)';
-    rev.push({code:it.final_code||(it.existing&&it.existing.code)||'',suffix:(it.existing&&it.existing.suffix)||'',bank_name:it.final_bank||(it.bank&&it.bank.std)||it.pdf_name,biz_num:it.biz_num||'',reason,no_transaction_keyword:noTrans>0?'예':'아니오',text_length:t.length,pdf_file:it.pdf_name});
-  }
-  if(!rev.length) return;
-  const cols=['code','suffix','bank_name','biz_num','reason','no_transaction_keyword','text_length','pdf_file'];
-  rev.sort((a,b)=>(a.code+a.suffix).localeCompare(b.code+b.suffix));
-  const aoa=[cols,...rev.map(r=>cols.map(c=>r[c]))];
-  const ws=X().utils.aoa_to_sheet(aoa);
-  ws['!cols']=[{wch:8},{wch:6},{wch:18},{wch:16},{wch:38},{wch:12},{wch:10},{wch:35}];
-  rowS(ws,0,0,cols.length-1,styl({fill:'ED7D31',bold:true,white:true,h:'center',wrap:true}));
-  rev.forEach((r,i)=>{const f=/실패/.test(r.reason)?'FFCCCC':(/거래 없음/.test(r.reason)?'FFFFCC':null);rowS(ws,1+i,0,cols.length-1,styl({fill:f,h:'left',wrap:true}));});
-  X().utils.book_append_sheet(wb,ws,'검토필요'); freezeMap['검토필요']={xSplit:0,ySplit:1};
-}
-
-function buildConsistencySheet(wb, items, freezeMap){
-  const results=[];
-  for(const it of items){
+    if(it.is_manual)continue;
     const code=it.final_code||(it.existing&&it.existing.code)||'';
-    if(!code && !it.fullText) continue;
+    if(!code&&!it.fullText)continue;
     const baseCode=String(code).replace(/[a-z]$/,'');
-    const info=CODE_INFO[baseCode]||{}; const masterStd=info.std||'', masterMajor=info.major||'';
-    const filenameBank=(it.existing&&it.existing.bank)||(it.bank&&it.bank.std)||'';
-    const footerStd=(it.bank&&it.bank.std)||'';
-    const formCat=it.form_category||'', formConf=it.form_confidence||'low';
-    const issues=[];
-    if(masterStd&&filenameBank&&masterStd!==filenameBank)issues.push('파일명 은행('+filenameBank+') != 마스터('+masterStd+')');
+    const info=CODE_INFO[baseCode]||{},masterStd=info.std||'',masterMajor=info.major||'';
+    const filenameBank=(it.existing&&it.existing.bank)||(it.bank&&it.bank.std)||'',footerStd=(it.bank&&it.bank.std)||'';
+    const formCat=it.form_category||'',formConf=it.form_confidence||'low',issues=[];
+    const nk=x=>String(x).replace(/\s|\(주\)|㈜|주식회사/g,'');
+    if(masterStd&&filenameBank&&!it.bank&&!nk(filenameBank).includes(nk(masterStd))&&!nk(masterStd).includes(nk(filenameBank)))issues.push('파일명 은행('+filenameBank+') != 마스터('+masterStd+')');
     if(footerStd&&masterStd&&footerStd!==masterStd)issues.push('PDF 푸터('+footerStd+') != 마스터('+masterStd+')');
     if(formCat&&(formConf==='high'||formConf==='medium')&&masterMajor&&formCat!==masterMajor)issues.push('PDF form('+formCat+') != BC코드 카테고리('+masterMajor+')');
     let status;
     if(!it.fullText)status='no_text';
     else if(!masterStd){status='unknown_code';issues.unshift('BC코드 '+baseCode+' 마스터에 없음');}
-    else if(issues.length)status='mismatch'; else status='ok';
-    results.push({pdf_file:it.pdf_name,code,filename_bank:filenameBank,master_std:masterStd,master_major:masterMajor,footer_std:footerStd,form_category:formCat,status,issues:issues.join(' / ')});
+    else status=issues.length?'mismatch':'ok';
+    out.push({pdf_file:it.pdf_name,code,bank:masterStd||filenameBank,status,issues:issues.join(' / ')});
   }
-  if(!results.length) return;
-  const labelMap={ok:'✓ 일치',mismatch:'✗ 불일치',no_text:'? 검증불가 (텍스트 없음)',unknown_code:'? 마스터 누락'};
-  const order={mismatch:0,unknown_code:1,no_text:2,ok:3};
-  results.sort((a,b)=>(order[a.status]??9)-(order[b.status]??9)||(a.code||'').localeCompare(b.code||''));
-  const cols=[['PDF 파일','pdf_file'],['BC코드','code'],['파일명 은행','filename_bank'],['마스터 표준명','master_std'],['마스터 카테고리','master_major'],['PDF 푸터 매칭','footer_std'],['PDF form 카테고리','form_category'],['판정','status_label'],['불일치 사유','issues']];
-  const aoa=[cols.map(c=>c[0])];
-  for(const r of results){const rr=Object.assign({},r,{status_label:labelMap[r.status]||r.status});aoa.push(cols.map(c=>rr[c[1]]||''));}
-  aoa.push([]); aoa.push(['[요약]']);
-  const cnt={}; results.forEach(r=>cnt[r.status]=(cnt[r.status]||0)+1);
-  ['ok','mismatch','unknown_code','no_text'].forEach(st=>aoa.push([labelMap[st],cnt[st]||0]));
-  const ws=X().utils.aoa_to_sheet(aoa);
-  ws['!cols']=[{wch:30},{wch:8},{wch:16},{wch:16},{wch:10},{wch:16},{wch:12},{wch:22},{wch:50}];
-  rowS(ws,0,0,cols.length-1,styl({fill:HDRC,bold:true,white:true,h:'center',wrap:true}));
-  const stColor={ok:'E2EFDA',mismatch:'FFCCCC',no_text:'FFF2CC',unknown_code:'FCE4D6'};
-  results.forEach((r,i)=>{rowS(ws,1+i,0,cols.length-1,styl({fill:stColor[r.status],h:'left',wrap:true}));});
-  X().utils.book_append_sheet(wb,ws,'코드일관성검증'); freezeMap['코드일관성검증']={xSplit:0,ySplit:1};
+  return out;
 }
-
-const SECTION_COLS={'예적금':['product_type','product','account','currency','amount','rate','last_pay_date','maturity_date','restriction'],'대출':['product','limit_currency','limit_amount','currency','amount','loan_date','maturity_date','rate','repay_method','collateral'],'지급보증':['product','limit_currency','limit_amount','currency','amount','fee_rate','period','collateral'],'유가증권_요약':['product','account','currency','amount','cash','margin','receivable','restriction'],'유가증권_상세':['account','product','quantity','face_value','base_price','eval_price','maturity_date','collateral','note'],'보험':['product','policy_no','currency','amount','premium_amt','period_start','period_end','accumulated','surrender_value','rate'],'보증':['product','policy_no','target','currency','amount','remaining','annual_premium','period','note'],'담보자산':['type','content','owner','appraisal_currency','appraisal_amount','setting_currency','setting_amount','rank','prior_marker','prior_setting_currency','prior_setting_amount']};
-const SEC_ORDER_BY_CAT={'은행_집계':['예적금','대출','지급보증','파생상품','연대보증','담보자산','담보어음수표','미결제어음','어음교부','당좌거래'],'증권_집계':['유가증권_요약','유가증권_상세','대출','지급보증','파생상품','연대보증','담보어음수표','증권거래내역'],'보험_집계':['보험','대출'],'보증_집계':['보증']};
-function buildCategorySheet(wb,name,catCodes,allRows,freezeMap){
-  const aoa=[[name+' 카테고리 - 조회내역 집계']]; let row=2;
-  const pdfToRows={};
-  const MAJOR_DIGIT={'은행':'1','증권':'2','보험':'3','보증':'4'};
-  const catDigit=r=>(r.code&&r.code.length>=3)?r.code[2]:(MAJOR_DIGIT[r.major_category]||'');
-  for(const r of allRows){const d=catDigit(r);if(d&&catCodes.has(d)){(pdfToRows[r.pdf_file]=pdfToRows[r.pdf_file]||[]).push(r);}}
-  const sortKeys={}; allRows.forEach(r=>{if(r.pdf_file&&r.code)sortKeys[r.pdf_file]=[r.code,r.suffix||''];});
-  const pdfs=Object.keys(pdfToRows).sort((a,b)=>{const ka=sortKeys[a]||['ZZZ',''],kb=sortKeys[b]||['ZZZ',''];return (ka[0]+ka[1]).localeCompare(kb[0]+kb[1]);});
-  const setCell=(r,c,v,z)=>{aoa[r]=aoa[r]||[];aoa[r][c]=v;if(z){ }};
-  if(!pdfs.length){aoa[2]=['(이 카테고리에 해당하는 PDF가 없습니다)'];}
-  const expected=SEC_ORDER_BY_CAT[name]||[];
-  const numCells=[];
-  const pdfHdrR=[], secHdrR=[], colHdrR=[], nilR=[];
-  for(const pdfName of pdfs){
-    const prows=pdfToRows[pdfName]; const fr=prows[0];
-    aoa[row]=[(fr.code?('['+fr.code+(fr.suffix||'')+'] '+(fr.bank_name||'')):('[코드 미부여·검토필요] '+(fr.bank_name||pdfName)))+'  (사업자번호: '+(fr.biz_num||'-')+')']; pdfHdrR.push(row); row++;
-    const bySec={}; const secOrder=[]; prows.forEach(r=>{if(!bySec[r.section]){bySec[r.section]=[];secOrder.push(r.section);}bySec[r.section].push(r);});
-    let secs=expected.length?expected.slice():secOrder.slice(); for(const s of secOrder)if(!secs.includes(s))secs.push(s);
-    for(const section of secs){
-      const secRows=bySec[section]||[]; let cols=SECTION_COLS[section];
-      aoa[row]=['  ▷ '+section]; secHdrR.push(row); row++;
-      if(!secRows.length){aoa[row]=['    해당 거래 없음'];nilR.push(row);row++;row++;continue;}
-      if(!cols){const meta=new Set(['section','pdf_file','code','suffix','bank_name','major_category','sub_category','biz_num']);const sk=[];secRows.forEach(r=>{for(const k in r)if(!meta.has(k)&&!sk.includes(k))sk.push(k);});cols=sk;}
-      aoa[row]=cols.slice(); colHdrR.push({r:row,n:cols.length}); row++;
-      for(const r of secRows){const line=[];cols.forEach((col,ci)=>{const cf=cellFor(col,r[col]!==undefined?r[col]:'');line[ci]=cf.v;if(cf.z&&typeof cf.v==='number')numCells.push({r:row,c:ci,z:cf.z});else if(cf.t==='d'&&cf.v instanceof Date)numCells.push({r:row,c:ci,z:cf.z,d:true});});aoa[row]=line;row++;}
-      row++;
-    }
-    row++;
+function bcCheckSheet(wb,items,rows,freezeMap){
+  const list=[];
+  for(const r of rows){if(r.status===ST_CHECK)list.push([1,'원본 확인',r.bank_name,r.code_full,r.pdf_file,r.source_page,r.section+': '+(r._manual?'원본 PDF와 대조 전':'금액 글자를 이 쪽에서 찾지 못함')]);}
+  const cnt={ok:0,mismatch:0,unknown_code:0,no_text:0},LABEL={mismatch:'코드 불일치',unknown_code:'마스터 누락'};
+  for(const c of bcConsistency(items)){cnt[c.status]=(cnt[c.status]||0)+1;if(LABEL[c.status])list.push([2,LABEL[c.status],c.bank,c.code,c.pdf_file,'',c.issues]);}
+  for(const it of items){
+    if(it.is_manual){if(it.status==='NEEDS_REVIEW')list.push([3,'기관 미매칭',it.final_bank,'',it.pdf_name,'','마스터에 없는 기관이라 집계에서 빠짐']);continue;}
+    if((it.rows||[]).length)continue;
+    const t=it.fullText||'',code=it.final_code||(it.existing&&it.existing.code)||'',bank=it.final_bank||(it.bank&&it.bank.std)||it.pdf_name;
+    if(!t.trim())list.push([3,'서면 미입력',bank,code,it.pdf_name,'','글자 없는 스캔이고 판독·수기 행이 없음']);
+    else if(/해당\s*거래\s*없음|해당\s*사항\s*없음/.test(t))list.push([4,'거래 없음 회신',bank,code,it.pdf_name,'','회신 정상, 표에 거래 없음']);
+    else list.push([3,'표 추출 실패',bank,code,it.pdf_name,'','글자는 있으나 표를 읽지 못함']);
   }
-  const ws=X().utils.aoa_to_sheet(aoa,{cellDates:true});
-  numCells.forEach(nc=>{const addr=X().utils.encode_cell({r:nc.r,c:nc.c});if(!ws[addr])return;if(nc.d){ws[addr].t='d';ws[addr].z=nc.z;}else if(typeof ws[addr].v==='number'){ws[addr].t='n';ws[addr].z=nc.z;}});
-  ws['!cols']=[{wch:18},{wch:22},{wch:22},{wch:10},{wch:16},{wch:16},{wch:14},{wch:14},{wch:14},{wch:14}];
-  const merges=[]; const mergeRow=r=>merges.push({s:{r,c:0},e:{r,c:14}});
-  setS(ws,0,0,styl({fill:'305496',bold:true,white:true,border:false})); mergeRow(0);
-  pdfHdrR.forEach(r=>{setS(ws,r,0,styl({fill:HDRC,bold:true,white:true,border:false}));mergeRow(r);});
-  secHdrR.forEach(r=>{setS(ws,r,0,styl({fill:'DEEBF7',bold:true,border:false}));mergeRow(r);});
-  nilR.forEach(r=>setS(ws,r,0,fnt({italic:true,color:{rgb:'808080'}})));
-  colHdrR.forEach(o=>{rowS(ws,o.r,0,o.n-1,styl({fill:'8EA9DB',bold:true,white:true,h:'center',wrap:true}));});
-  if(merges.length)ws['!merges']=merges;
-  X().utils.book_append_sheet(wb,ws,name); freezeMap[name]={xSplit:0,ySplit:2};
+  list.sort((a,b)=>a[0]-b[0]||bcCmp(String(a[3]),String(b[3])));
+  const ws={},merges=[{s:{r:0,c:0},e:{r:0,c:5}},{s:{r:1,c:0},e:{r:1,c:5}}];
+  bcPut(ws,0,0,'점검 - 확인할 행만',fnt({bold:true}));
+  bcPut(ws,1,0,'코드 일관성: 일치 '+cnt.ok+' · 불일치 '+cnt.mismatch+' · 마스터 누락 '+cnt.unknown_code+' · 글자 없음 '+cnt.no_text+'   |   아래 '+list.length+'행',fnt({}));
+  bcHeadRow(ws,3,['구분','금융기관','BC코드','원본 PDF','쪽','내용']);
+  list.forEach((it,i)=>{it.slice(1).forEach((v,c)=>{let s=it[0]===4?styl({color:'808080',wrap:c===5}):styl({wrap:c===5});if(c===0&&it[0]<=1)s=styl({fill:'FFC000'});bcPut(ws,4+i,c,v,s);});});
+  bcEnd(ws,3+list.length,5,merges);
+  ws['!autofilter']={ref:X().utils.encode_range({s:{r:3,c:0},e:{r:3+list.length,c:5}})};
+  X().utils.book_append_sheet(wb,ws,'점검'); freezeMap['점검']={xSplit:0,ySplit:4};
+}
+function bcInstitutionSheet(wb,items,rows,freezeMap){
+  const MAJOR_DIGIT={'은행':'1','증권':'2','보험':'3','보증':'4'};
+  const major=it=>{const c=String(it.final_code||(it.existing&&it.existing.code)||'');return c.length>=3?c[2]:(MAJOR_DIGIT[it.bank&&it.bank.major]||MAJOR_DIGIT[it.form_category]||'9');};
+  const keep=new Set(rows.filter(r=>!bcIsPlaceholder(r)));
+  const list=items.slice().sort((a,b)=>bcCmp(major(a),major(b))||bcCmp(String(a.final_code||''),String(b.final_code||''))||bcCmp(String(a.pdf_name||a.final_bank||''),String(b.pdf_name||b.final_bank||'')));
+  const ws={},merges=[],WIDTH=14; let n=2,cur=null,maxC=WIDTH;
+  const band=(r,text,fill,font)=>{for(let c=0;c<=WIDTH;c++)bcPut(ws,r,c,c===0?text:'',{fill:{patternType:'solid',fgColor:{rgb:fill}},font});merges.push({s:{r,c:0},e:{r,c:WIDTH}});};
+  const WHITE={name:XL_FONT,sz:10,bold:true,color:{rgb:'FFFFFF'}};
+  bcPut(ws,0,0,'기관별 회신 내용 - 조회서 한 장씩(금액 없는 행은 회색, 어음 서식의 빈 줄은 뺌)',fnt({bold:true}));merges.push({s:{r:0,c:0},e:{r:0,c:WIDTH}});
+  for(const it of list){
+    const m=major(it);
+    if(m!==cur){cur=m;band(n,(BC_MAJOR[m]||'코드 없음')+' ('+list.filter(x=>major(x)===m).length+'곳)','305496',WHITE);n++;}
+    const rs=(it.rows||[]).filter(r=>keep.has(r));
+    const code=it.final_code||(it.existing&&it.existing.code)||'',bank=(rs[0]&&rs[0].bank_name)||it.final_bank||(it.bank&&it.bank.std)||it.pdf_name||'',biz=(rs[0]&&rs[0].biz_num)||it.biz_num||'-';
+    band(n,'['+code+'] '+bank+'   사업자번호 '+biz+'   '+(it.pdf_name||''),HDRC,WHITE);n++;
+    if(!rs.length){const msg=(it.is_manual&&it.status==='NEEDS_REVIEW')?'기관 미매칭 - 점검 시트 참조':(!it.is_manual&&!(it.fullText||'').trim())?'서면 미입력 - 점검 시트 참조':'거래 내역 없음';bcPut(ws,n,0,msg,fnt({italic:true,color:{rgb:'808080'}}));n+=2;continue;}
+    const secs=[];rs.forEach(r=>{if(!secs.includes(r.section))secs.push(r.section);});
+    const ord=Object.keys(BC_SECTIONS),idx=s=>{const i=ord.indexOf(s);return i<0?99:i;};
+    secs.sort((a,b)=>idx(a)-idx(b));
+    for(const sec of secs){
+      const data=rs.filter(r=>r.section===sec).sort((a,b)=>(bcHasAmt(a)?0:1)-(bcHasAmt(b)?0:1));
+      band(n,sec,'DEEBF7',{name:XL_FONT,sz:10,bold:true});n++;
+      let cols;
+      if(BC_SECTIONS[sec])cols=BC_SECTIONS[sec].concat(BC_RIGHT.slice(0,2));
+      else{const seen=[];data.forEach(r=>{for(const k of Object.keys(r))if(!BC_META.has(k)&&!seen.includes(k))seen.push(k);});cols=seen.map(k=>[k,k==='col_1'?'구분':k.startsWith('col_')?'':k]).concat(BC_RIGHT.slice(0,2));}
+      cols.forEach(([k,h],c)=>bcPut(ws,n,c,h,styl({fill:'8EA9DB',bold:true,white:true,h:'center',wrap:true})));
+      maxC=Math.max(maxC,cols.length-1);n++;
+      for(const r of data){cols.forEach(([k],c)=>{const s=bcRowStyle(r,k);if(c===0)s.alignment=Object.assign({},s.alignment,{wrapText:true});bcCell(ws,n,c,k,r[k],s);});n++;}
+    }
+    n++;
+  }
+  bcEnd(ws,n,maxC,merges);
+  X().utils.book_append_sheet(wb,ws,'기관별'); freezeMap['기관별']={xSplit:0,ySplit:2};
 }
 
 function injectFreeze(ab, sheetNameToFreeze){
@@ -1184,9 +1177,9 @@ $('run').onclick=async()=>{
       try{
         const buf=await f.arrayBuffer();
         const doc=await pdfjsLib.getDocument({data:new Uint8Array(buf),isEvalSupported:false}).promise;
-        let fullText='', tables=[];
-        for(let p=0;p<doc.numPages;p++){const g=await pageGeom(await doc.getPage(p+1));fullText+=g.orderedText+'\n';tables.push(...extractPageTables(g.rects,g.lines,g.words));}
-        const it=processTables(f.name,tables,fullText); it.pdf_name=f.name; it.file=f; it.needs_ocr=isOcrPending(it); items.push(it);
+        let fullText='', tables=[]; const pageTexts=[];
+        for(let p=0;p<doc.numPages;p++){const g=await pageGeom(await doc.getPage(p+1));fullText+=g.orderedText+'\n';pageTexts.push(g.orderedText);const pt=extractPageTables(g.rects,g.lines,g.words);pt.forEach(t=>{t._page=p+1;});tables.push(...pt);}
+        const it=processTables(f.name,tables,fullText,pageTexts); it.pdf_name=f.name; it.file=f; it.needs_ocr=isOcrPending(it); items.push(it);
         const bk=it.bank?it.bank.std:'-'; log('    → 회사='+(it.company||'-')+' 기관='+bk+' 카테고리='+(it.form_category||'?')+' 사업자='+(it.biz_num||'-')+' 데이터행='+it.rows.length);
       }catch(err){
         failed.push(f.name); log('    ⚠ 실패: '+f.name+' - '+(err&&err.message||err)+' (이 파일만 건너뜀 · 나머지 계속 처리)'); console.error('PDF 처리 실패:',f.name,err);
@@ -1212,6 +1205,7 @@ function renderResults(){
   const warns=[];
   const mism=items.filter(i=>i.cat_mismatch); if(mism.length)warns.push('⚠ 카테고리 의심 '+mism.length+'건 (form 카테고리 ≠ 매칭 기관 카테고리) - 비고 확인');
   if(rev)warns.push('⚠ 검토필요 '+rev+'건 (회사/기관 자동매칭 실패) - 파일명 또는 마스터 확인');
+  const nochk=items.reduce((n,i)=>n+(i.rows||[]).filter(r=>r.status===ST_CHECK).length,0); if(nochk)warns.push('⚠ 원본 확인 '+nochk+'행 - 집계 파일의 status 칸이 원본 확인인 행을 원본 PDF와 대조');
   if(STATE.failed&&STATE.failed.length)warns.push('⚠ 처리 실패 '+STATE.failed.length+'건 ('+STATE.failed.join(', ')+') - 손상·암호화 PDF 여부 확인, 집계에서 누락되었으니 별도 처리 필요');
   if(ocr)warns.push('⚠ 텍스트 없는 스캔본 '+ocr+'건 - 아래 수기 입력 표에 금액을 입력·반영하기 전에는 집계 확정 금지');
   $('warns').innerHTML=warns.length?('<div class="warn">'+warns.map(esc).join('<br>')+'</div>'):'';
@@ -1263,7 +1257,7 @@ async function transferAndStartOcr(autoRun){
   const pending=(STATE.online||[]).filter(isOcrPending);
   if(!pending.length){setOcrStatus('');return;}
   refreshMancoDL();let added=0;
-  for(const it of pending){if(findManualRowBySource(it.pdf_name))continue;const g=guessScanFilename(it.pdf_name);const tr=manRow({company:g.company,bank_std:g.bank_std,bank_actual:g.bank_actual,section:'',currency:'KRW',source_pdf:it.pdf_name,source_page:1,review_status:'OCR초안',note:'스캔본 - 원본을 보고 입력'});$('manBody').appendChild(tr);added++;}
+  for(const it of pending){if(findManualRowBySource(it.pdf_name))continue;const g=guessScanFilename(it.pdf_name);const tr=manRow({company:g.company,bank_std:g.bank_std,bank_actual:g.bank_actual,section:'',currency:'KRW',source_pdf:it.pdf_name,source_page:'',review_status:'OCR초안',note:'스캔본 - 원본을 보고 입력'});$('manBody').appendChild(tr);added++;}
   if(!autoRun)$('manualCard').scrollIntoView({behavior:'smooth',block:'start'});
   setOcrStatus('글자를 읽을 수 없는 스캔본 '+pending.length+'건을 아래 수기 입력 표로 옮겼습니다'+(added<pending.length?(' (새로 옮긴 것 '+added+'건)'):'')+'. 원본 PDF를 보며 섹션·금액 등을 입력하고(잔액이 없는 회신은 섹션을 비워 둠) [수정 반영 · 상단 재분류]를 누르세요.');
 }
@@ -1506,14 +1500,15 @@ function matchBankManual(bankName){
 }
 function entByStd(std){ std=(std||'').trim(); if(!std)return null; return LIVE_MASTER.find(e=>e.std===std)||null; }
 function companyBizLookup(online){ const lk={}; (online||[]).forEach(it=>{const co=it.final_company||it.company,bz=it.biz_num; if(co&&bz){const k=String(co).replace(/\s+/g,''); if(!(k in lk))lk[k]=bz;}}); return lk; }
+function cleanManualNote(v){return String(v||'').split(';').map(p=>p.replace(/\(?서면 회신 판독[^;)]*\)?/g,'').trim()).filter(p=>p&&!p.startsWith('원본 확인:')&&!/^(스캔본 - 원본을 보고 입력|판독 대기|OCR 대기)$/.test(p)).join('; ');}
 function manualTxToRow(tx,r,biz){
   const section=(tx.section||'').trim(); if(!section)return null;
   const sourcePdf=(tx.source_pdf||'').trim(); const pf=sourcePdf||r.coClean+' '+r.final_code+' '+r.bank_name+'.pdf';
-  const common={section,pdf_file:pf,code:r.base,suffix:'',bank_name:r.bank_name,major_category:r.ent.major,sub_category:r.ent.sub||'',biz_num:biz,_manual:true,_ocr:!!sourcePdf,source_page:tx.source_page||'',ocr_confidence:tx.ocr_confidence||'',review_status:tx.review_status||''};
+  const common={section,pdf_file:pf,code:r.base,suffix:'',bank_name:r.bank_name,major_category:r.ent.major,sub_category:r.ent.sub||'',biz_num:biz,_manual:true,_ocr:!!sourcePdf,source_page:tx.source_page||'',status:tx.review_status==='OCR초안'?ST_CHECK:(tx.row_status||ST_MANUAL),ocr_confidence:tx.ocr_confidence||'',review_status:tx.review_status||''};
   const amt=numOrNull(tx.amount),lim=numOrNull(tx.limit); let cur=(tx.currency||'').trim().toUpperCase()||'KRW'; if(cur==='WON')cur='KRW';
   const rate=(tx.rate==null||tx.rate==='')?'':String(tx.rate); const maturity=dateNorm(tx.maturity);
-  const product=(tx.product||'').trim(),account=(tx.account||'').trim(),note=(tx.note||'').trim();
-  const amtRaw=(tx.amount==null||tx.amount==='')?'':String(tx.amount);
+  const product=(tx.product||'').trim(),account=(tx.account||'').trim(),note=cleanManualNote(tx.note);
+  const amtRaw='';
   if(section==='예적금')return {...common,product_type:classifyDeposit(product),product,account,currency:cur,amount:amt,amount_raw:amtRaw,rate,last_pay_date:'',maturity_date:maturity,restriction:note};
   if(section==='대출')return {...common,product,limit_currency:cur,limit_amount:lim,currency:cur,amount:amt,amount_raw:amtRaw,loan_date:'',maturity_date:maturity,rate,last_pay_date:'',repay_method:'',collateral:note};
   if(section==='지급보증')return {...common,product,limit_currency:cur,limit_amount:lim,currency:cur,amount:amt,amount_raw:amtRaw,fee_rate:rate,period:'',collateral:note};
@@ -1565,9 +1560,10 @@ function bindManualFormats(tr){
   tr.querySelectorAll('.m-amt,.m-li').forEach(el=>{el.addEventListener('focus',()=>{el.value=el.value.replace(/,/g,'');});el.addEventListener('blur',()=>{el.value=formatMoneyInput(el.value);});});
   const rt=tr.querySelector('.m-rt');rt.addEventListener('blur',()=>{rt.value=formatRateInput(rt.value);});
 }
+const amtKey=v=>String(v??'').replace(/[,\s]/g,'');
 function manRow(pre){
   pre=pre||{}; const tr=document.createElement('tr'); if(pre.nil)tr.className='manual';
-  tr.dataset.sourcePdf=pre.source_pdf||''; tr.dataset.sourcePage=pre.source_page||''; tr.dataset.ocrConfidence=pre.ocr_confidence||''; tr.dataset.reviewStatus=pre.review_status||'';
+  tr.dataset.sourcePdf=pre.source_pdf||''; tr.dataset.sourcePage=pre.source_page||''; tr.dataset.ocrConfidence=pre.ocr_confidence||''; tr.dataset.reviewStatus=pre.review_status||''; tr.dataset.rowStatus=pre.row_status||''; tr.dataset.readAmount=pre.row_status===ST_READ?amtKey(pre.amount):'';
   const opt=(arr,v,labelFn)=>arr.map(x=>'<option value="'+esc(x)+'" '+(x===v?'selected':'')+'>'+esc(labelFn?labelFn(x):(x||'- 잔액없음 -'))+'</option>').join('');
   const stdOpt=()=>{ const man=LIVE_MASTER.filter(e=>e.route==='수기'), onl=LIVE_MASTER.filter(e=>e.route!=='수기');
     const o=e=>'<option value="'+esc(e.std)+'"'+(e.std===(pre.bank_std||'')?' selected':'')+'>'+esc(e.std)+'</option>';
@@ -1604,6 +1600,7 @@ function collectManual(){
     currency:tr.querySelector('.m-cu').value, limit:tr.querySelector('.m-li').value,
     note:tr.querySelector('.m-nt').value,
     source_pdf:tr.dataset.sourcePdf||'', source_page:tr.dataset.sourcePage||'', ocr_confidence:tr.dataset.ocrConfidence||'', review_status:tr.dataset.reviewStatus||'',
+    row_status:(tr.dataset.rowStatus===ST_READ&&amtKey(tr.querySelector('.m-amt').value)!==tr.dataset.readAmount)?ST_HUMAN:tr.dataset.rowStatus||'',
   };}).filter(r=>(r.company||'').trim()&&(r.bank_name||'').trim());
 }
 function ocrPick(row,names){for(const n of names)if(row[n]!==undefined&&row[n]!==null&&String(row[n]).trim()!=='')return row[n];return'';}
@@ -1620,7 +1617,7 @@ function parseOcrResultWB(wb){
     product:String(ocrPick(r,['product','상품명','금융상품'])).trim(), account:String(ocrPick(r,['account','계좌번호','증권번호'])).trim(),
     rate:ocrPick(r,['rate','이자율']), maturity:String(ocrPick(r,['maturity','만기일'])).trim(), currency:String(ocrPick(r,['currency','통화'])).trim()||'KRW',
     limit:ocrPick(r,['limit','한도액']), note:String(ocrPick(r,['note','비고'])).trim(), source_page:ocrPick(r,['source_page','원본페이지']),
-    ocr_confidence:ocrPick(r,['ocr_confidence','OCR신뢰도']), review_status:String(ocrPick(r,['review_status','검토상태'])).trim()
+    ocr_confidence:ocrPick(r,['ocr_confidence','OCR신뢰도']), review_status:String(ocrPick(r,['review_status','검토상태'])).trim(), row_status:String(ocrPick(r,['status','상태'])).trim()
   }));
 }
 async function processOcrResultFile(f){
@@ -1639,7 +1636,7 @@ async function processOcrResultFile(f){
       srcMap[r.source_pdf]=hit?(hit.dataset.sourcePdf||r.source_pdf):r.source_pdf;}
     const used=new Set(Object.values(srcMap));
     blanks.forEach(tr=>{if(used.has(tr.dataset.sourcePdf||''))tr.remove();});
-    confirmed.forEach(r=>{r.source_pdf=srcMap[r.source_pdf]||r.source_pdf;r.review_status=isOk(r)?'확정':'OCR초안';});
+    confirmed.forEach(r=>{r.source_pdf=srcMap[r.source_pdf]||r.source_pdf;r.review_status=isOk(r)?'확정':'OCR초안';r.row_status=r.row_status||ST_HUMAN;});
     const mkey=(pdf,ac,se,pr,am)=>[pdf,ac,se,pr,String(am??'').replace(/[,\s]/g,'')].map(v=>String(v||'').trim()).join('|');
     const existing=new Set([...document.querySelectorAll('#manBody tr')].map(tr=>mkey(tr.dataset.sourcePdf,tr.querySelector('.m-ac')?.value,tr.querySelector('.m-se')?.value,tr.querySelector('.m-pr')?.value,tr.querySelector('.m-amt')?.value)));
     let added=0,unmatched=0,rev=0;
@@ -1671,7 +1668,7 @@ if($('manBody')){
   };
 }
 
-window.__FINQ={normAsof,parseWolboPdf,parseWolboGrid,sectionsFromTables,wolboPdfMatrix,processTables,extractPageTables,pageGeom,buildBCdata,autoFitSheet,autoFitWorkbook,get MASTER(){return LIVE_MASTER;},assignCodes,masterToArray,parseMasterWB,parseKftcWB,mergeKftc,setMaster,openEditor,collectEditor,nextManualCode,nextOnlineCode,makeManualItems,matchBankManual,integrate,parseWolbo,parseWolboSections,buildWolboRecon,buildWolboFullSheet,downloadWolbo,collectDroppedFiles,walkDroppedEntry,walkDroppedHandle,handleFiles,get STATE(){return STATE;}};
+window.__FINQ={tagTextRows,normAsof,parseWolboPdf,parseWolboGrid,sectionsFromTables,wolboPdfMatrix,processTables,extractPageTables,pageGeom,buildBCdata,autoFitSheet,autoFitWorkbook,get MASTER(){return LIVE_MASTER;},assignCodes,masterToArray,parseMasterWB,parseKftcWB,mergeKftc,setMaster,openEditor,collectEditor,nextManualCode,nextOnlineCode,makeManualItems,matchBankManual,integrate,parseWolbo,parseWolboSections,buildWolboRecon,buildWolboFullSheet,downloadWolbo,collectDroppedFiles,walkDroppedEntry,walkDroppedHandle,handleFiles,get STATE(){return STATE;}};
 })();
 
 </script>
